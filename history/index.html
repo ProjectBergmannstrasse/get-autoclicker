@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AutoClicker — 60 builds, blank window → shipped app</title><meta name="description" content="The build history of AutoClicker — 60 of the most distinct builds, from a blank window to the shipped Textual app, with a growth chart, a screenshot slideshow and an in-page source viewer."><style>
+:root{--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;--bg:#0a0a0a;--panel:#111;--panel2:#161616;--line:#262626;--line2:#333;--fg:#f2f2f2;--dim:#9a9a9a;--faint:#5c5c5c;--ease:cubic-bezier(.22,1,.36,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--fg);font:14px/1.55 var(--mono);font-variant-numeric:tabular-nums}
+a{color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line2);transition:border-color .15s var(--ease),color .15s var(--ease)}
+a:hover{border-color:var(--fg)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px calc(96px + env(safe-area-inset-bottom,0px))}
+header{padding:52px 0 30px;border-bottom:1px solid var(--line);position:relative}
+.topmail{position:absolute;top:20px;right:0;color:var(--dim);font-size:12px;border-bottom:1px solid var(--line)}
+.topmail:hover{color:var(--fg)}
+.kicker{color:var(--faint);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:clamp(24px,5vw,36px);font-weight:700;letter-spacing:-.01em}
+h1 span{color:var(--dim);font-weight:400}
+.sub{color:var(--dim);margin-top:10px;max-width:660px}
+.sub b{color:var(--fg);font-weight:600}
+.btnrow{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+.bbtn{background:var(--fg);color:#000;border:0;font:inherit;font-weight:700;padding:10px 16px;cursor:pointer;text-decoration:none;transition:transform .12s var(--ease)}
+.bbtn:active{transform:scale(.96)}
+.bbtn.ghost{background:none;color:var(--dim);border:1px solid var(--line2)}
+.bbtn.ghost:hover{color:var(--fg);border-color:var(--fg)}
+main[hidden]{display:none}
+main{min-height:60vh}
+@keyframes tpage{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pageanim{animation:tpage .3s var(--ease) both}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:32px 0}
+.stat{background:var(--panel);padding:18px 16px}
+.anim-ok .stat{animation:rise .3s var(--ease) both}
+.stat:nth-child(1){animation-delay:.02s}.stat:nth-child(2){animation-delay:.07s}.stat:nth-child(3){animation-delay:.12s}
+.stat:nth-child(4){animation-delay:.17s}.stat:nth-child(5){animation-delay:.22s}.stat:nth-child(6){animation-delay:.27s}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.stat .n{font-size:24px;font-weight:700}.stat .l{color:var(--faint);font-size:11.5px;margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
+h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:40px 0 14px;font-weight:600}
+h2 small{color:var(--faint);text-transform:none;letter-spacing:0;font-weight:400;margin-left:10px}
+.ctoggle{display:inline-flex;border:1px solid var(--line2);margin-left:12px;vertical-align:middle}
+.ctoggle button{background:none;border:0;color:var(--dim);font:inherit;font-size:11.5px;padding:4px 10px;cursor:pointer;transition:background .15s,color .15s,transform .12s}
+.ctoggle button.on{background:var(--fg);color:#000;font-weight:700}
+.ctoggle button:active{transform:scale(.96)}
+.chartbox{border:1px solid var(--line);background:var(--panel);padding:14px 14px 6px;position:relative}
+.chartbox svg{display:block;width:100%;height:auto}
+.bar{fill:#3d3d3d;transition:fill .12s}.bar:hover{fill:#f2f2f2}
+.tip{position:absolute;pointer-events:none;background:#000;border:1px solid var(--line2);padding:7px 10px;font-size:12px;opacity:0;transform:translateY(3px);transition:opacity .12s,transform .12s;white-space:nowrap;z-index:5}
+.tip.on{opacity:1;transform:none}.tip b{font-weight:700}.tip .d{color:var(--dim)}
+.chartnote{color:var(--faint);font-size:12px;padding:10px 2px 8px}
+.milestones{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.mile{background:var(--panel);padding:16px}.mile .mv{font-weight:700}.mile .mt{color:var(--dim);font-size:12.5px;margin-top:5px}
+.toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.search{flex:1;min-width:220px;background:var(--panel);border:1px solid var(--line2);color:var(--fg);font:inherit;padding:10px 12px;outline:none;transition:border-color .15s}
+.search:focus{border-color:var(--fg)}.search::placeholder{color:var(--faint)}
+.count{color:var(--faint);font-size:12.5px;white-space:nowrap}
+.sortsel{background:var(--panel);border:1px solid var(--line2);color:var(--dim);font:inherit;font-size:12.5px;padding:10px 8px;outline:none;cursor:pointer}
+table{width:100%;border-collapse:collapse;border:1px solid var(--line)}
+thead th{background:var(--panel2);color:var(--faint);font-size:11px;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+tbody td{padding:9px 12px;border-bottom:1px solid #1c1c1c;font-size:13px;vertical-align:top}
+tbody tr{transition:background .12s}tbody tr:hover{background:#151515}
+td.num{color:var(--dim)}td .seq{color:var(--faint)}td .ver{font-weight:700}
+td .bnote{color:var(--faint);font-size:12px;margin-top:3px;max-width:52ch}
+.acts{display:flex;gap:12px;white-space:nowrap}
+.acts a{border-bottom:none;color:var(--dim);font-size:12px}
+.acts a:hover{color:var(--fg)}.acts a::before{content:"→ ";color:var(--faint)}
+.sizebar{display:inline-block;height:7px;background:#3d3d3d;vertical-align:middle;margin-right:8px;min-width:1px}
+tr:hover .sizebar{background:var(--fg)}
+.empty{color:var(--faint);text-align:center;padding:32px 0;display:none}
+/* slideshow */
+.showbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.showbar button{background:none;border:1px solid var(--line2);color:var(--dim);font:inherit;font-size:12.5px;padding:8px 12px;cursor:pointer;transition:color .15s,border-color .15s,transform .12s}
+.showbar button:hover{color:var(--fg);border-color:var(--fg)}.showbar button:active{transform:scale(.95)}
+.showbar button.on{background:var(--fg);color:#000;border-color:var(--fg);font-weight:700}
+.showstage{border:1px solid var(--line);background:#000;display:flex;align-items:center;justify-content:center;min-height:300px;position:relative;overflow:hidden}
+.showstage img{max-width:100%;max-height:66vh;display:block;image-rendering:auto}
+.showcap{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid var(--line);border-top:0;background:var(--panel);padding:10px 14px;flex-wrap:wrap}
+.showcap .cv{font-weight:700}.showcap .cn{color:var(--dim);font-size:12.5px}
+.showcap .cx{color:var(--faint);font-size:12px;white-space:nowrap}
+.scrub{width:100%;margin:12px 0 2px;accent-color:#f2f2f2}
+.speedlab{color:var(--faint);font-size:12px;margin-left:auto}
+/* source */
+.srcbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.srcbtn{background:none;border:1px solid var(--line2);color:var(--dim);font:inherit;font-size:12.5px;padding:8px 13px;cursor:pointer;text-decoration:none;transition:color .15s,border-color .15s,transform .12s}
+.srcbtn:hover{color:var(--fg);border-color:var(--fg)}.srcbtn:active{transform:scale(.96)}
+.srcbtn.pri{background:var(--fg);color:#000;border-color:var(--fg);font-weight:700}
+.srcmeta{color:var(--faint);font-size:12px;margin-bottom:8px}.srcmeta b{color:var(--dim);font-weight:400}
+.srcnote{color:var(--dim);font-size:12.5px;margin:0 0 14px;max-width:70ch}
+.codewrap{border:1px solid var(--line);background:#0d0d0d;overflow:auto;max-height:70vh}
+.codewrap table{border:0;width:auto;min-width:100%}
+.codewrap td{border:0;padding:0;font-size:12px;line-height:1.5;white-space:pre}
+.lnum{color:#3a3a3a;text-align:right;padding:0 12px 0 14px!important;user-select:none;position:sticky;left:0;background:#0d0d0d;border-right:1px solid var(--line)!important}
+.lcode{padding:0 16px 0 14px!important;color:#cfcfcf}
+.codewrap tr:hover .lcode{background:#141414}
+.srcload{padding:16px;text-align:center;color:var(--faint);font-size:12.5px}
+.srcmore{margin-top:12px;text-align:center}
+.crd{border:1px solid var(--line);background:var(--panel);padding:22px;max-width:640px}
+.crd .crd-k{color:var(--faint);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.crd .nm{font-size:22px;font-weight:700;margin:8px 0 4px}
+.crd .rl{color:var(--dim);margin-bottom:16px}
+.crow2{display:flex;gap:12px;align-items:center;border-top:1px solid var(--line);padding:13px 0;flex-wrap:wrap}
+.crow2>span.lbl{color:var(--faint);width:70px;flex:none;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.crow2 a,.crow2 code{word-break:break-all;font-size:12.5px}
+.readme{border:1px solid var(--line);background:var(--panel);padding:20px;margin-top:14px}
+.readme h3{font-size:14px;margin:16px 0 8px}.readme h3:first-child{margin-top:0}
+.readme p{color:var(--dim);margin:8px 0;max-width:72ch}.readme b{color:var(--fg)}
+.readme code{background:#1a1a1a;border:1px solid var(--line);padding:1px 5px;font-size:12px}
+footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
+.tbar-pad{height:calc(78px + env(safe-area-inset-bottom,0px))}
+.tbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));width:min(430px,100vw - 24px);border-radius:18px;background:rgba(18,18,18,.82);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border:1px solid #2e2e2e;display:flex;z-index:90;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.tbar .tpill{position:absolute;top:5px;bottom:5px;border-radius:13px;background:#2c2c2c;transition:left .32s var(--ease),width .32s var(--ease)}
+.tbar button{flex:1;min-height:50px;background:none;border:0;color:#9a9a9a;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;transition:color .2s,transform .12s var(--ease)}
+.tbar button:active{transform:scale(.93)}
+.tbar button .ic{font-size:16px;line-height:1;transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+.tbar button .lb{font-size:10.5px;letter-spacing:.04em}
+.tbar button[aria-selected="true"]{color:#f2f2f2}
+.tbar button[aria-selected="true"] .ic{transform:translateY(-1px) scale(1.16)}
+@media(max-width:640px){.acts{flex-direction:column;gap:4px}thead th:nth-child(3),tbody td:nth-child(3){display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style></head><body><div class="wrap">
+<header>
+ <a class="topmail" href="mailto:67ace67a@gmail.com">67ace67a@gmail.com</a>
+ <div class="kicker">ProjectBergmannstrasse</div>
+ <h1>AutoClicker <span>/ build history</span></h1>
+ <p class="sub">How AutoClicker was built — <b>60 of the most distinct builds</b>, from a
+ <b>blank window</b> through the tkinter era and the Textual rewrite to the shipped app, <b>v5.6</b>.
+ Every build here is real and runs on its own. Watch it evolve in the <b>slideshow</b>.</p>
+ <div class="btnrow">
+  <a class="bbtn" href="https://projectbergmannstrasse.github.io/get-autoclicker/autoclicker.html">Get AutoClicker — v5.6</a>
+  <a class="bbtn ghost" href="#show" data-tab="2">Watch the slideshow</a>
+  <a class="bbtn ghost" href="#builds" data-tab="1">Browse builds</a>
+ </div>
+</header>
+
+<main id="view-home">
+ <div class="stats" id="stats"></div>
+ <h2>Growth across the builds
+  <span class="ctoggle" role="tablist"><button id="btnLines" class="on">lines</button><button id="btnBytes">size</button></span>
+  <span class="ctoggle" id="eraTog" role="tablist"><button id="erAll" class="on">all 60</button><button id="erPre">before shipped</button></span>
+  <small id="chartLabel">code lines per build</small></h2>
+ <div class="chartbox" id="chartbox">
+  <svg id="chart" viewBox="0 0 1000 260" preserveAspectRatio="none" aria-label="Growth chart"></svg>
+  <div class="tip" id="tip"></div><div class="chartnote" id="chartnote"></div>
+ </div>
+ <h2>Milestones</h2>
+ <div class="milestones" id="miles"></div>
+</main>
+
+<main id="view-builds" hidden>
+ <h2>All builds <small>oldest → newest — open runs it, save downloads it, source reads it here</small></h2>
+ <div class="toolrow">
+  <input class="search" id="q" type="search" placeholder="Filter… e.g. tab, hotkey, dark, emulation" aria-label="Filter builds">
+  <select class="sortsel" id="sort" aria-label="Sort"><option value="old">Oldest first</option><option value="new">Newest first</option><option value="big">Largest first</option></select>
+  <span class="count" id="cnt"></span>
+ </div>
+ <table><thead><tr><th>Build</th><th>Size</th><th>Lines</th><th>Links</th></tr></thead><tbody id="rows"></tbody></table>
+ <div class="empty" id="empty">No builds match.</div>
+</main>
+
+<main id="view-show" hidden>
+ <h2>Slideshow <small>every build's screen, in order</small></h2>
+ <div class="showbar">
+  <button id="playBtn" class="on">⏸ Pause</button>
+  <button id="prevBtn">‹ Prev</button>
+  <button id="nextBtn">Next ›</button>
+  <span class="speedlab">Speed:</span>
+  <button class="spd" data-ms="1000">1 / sec</button>
+  <button class="spd on" data-ms="5000">1 / 5 sec</button>
+  <button class="spd" data-ms="120">fast</button>
+ </div>
+ <div class="showstage"><img id="shot" alt="build screenshot" decoding="async"></div>
+ <div class="showcap">
+  <span><span class="cv" id="capVer"></span> &nbsp;<span class="cn" id="capNote"></span></span>
+  <span class="cx" id="capX"></span>
+ </div>
+ <input class="scrub" id="scrub" type="range" min="0" max="59" value="0" step="1" aria-label="Scrub builds">
+</main>
+
+<main id="view-source" hidden>
+ <h2 id="srcTitle">Source</h2>
+ <div class="srcbar">
+  <button class="srcbtn" id="srcBack">← Back to builds</button>
+  <a class="srcbtn pri" id="srcRun" href="#" target="_blank" rel="noopener">Open raw</a>
+  <a class="srcbtn" id="srcDl" href="#" download>Download</a>
+  <button class="srcbtn" id="srcCopy">Copy all</button>
+ </div>
+ <div class="srcmeta" id="srcMeta"></div>
+ <div class="srcnote" id="srcNote"></div>
+ <div class="codewrap" id="codewrap"><div class="srcload">Loading…</div></div>
+ <div class="srcmore" id="srcMore"></div>
+</main>
+
+<main id="view-credits" hidden>
+ <h2>Credits</h2>
+ <div class="crd">
+  <div class="crd-k">ProjectBergmannstrasse</div>
+  <div class="nm">Zuhayr</div>
+  <div class="rl">Built AutoClicker — a terminal auto-clicker and macro recorder for Windows, macOS and Linux.</div>
+  <div class="crow2"><span class="lbl">Get it</span><a href="https://projectbergmannstrasse.github.io/get-autoclicker/autoclicker.html">Buy &amp; download AutoClicker v5.6</a></div>
+  <div class="crow2"><span class="lbl">Email</span><a href="mailto:67ace67a@gmail.com">67ace67a@gmail.com</a></div>
+  <div class="crow2"><span class="lbl">GitHub</span><a href="https://github.com/ProjectBergmannstrasse">github.com/ProjectBergmannstrasse</a></div>
+ </div>
+ <div class="readme">
+  <h3>About this history</h3>
+  <p>AutoClicker grew through a tkinter era (GUI windows) and then a Textual rewrite (the terminal UI it ships with today). This page shows <b>60 of the most distinct builds</b> — the ones that actually changed something — chosen from the full set, ending on the shipped build, <b>v5.6</b>.</p>
+  <p>Every build here is one of the real <code>.py</code> files and runs on its own. Each note describes what that build's code actually does. Early builds need <code>pip install pynput</code>; the Textual builds need <code>pip install textual pynput requests</code>; the shipped build auto-installs its own dependencies on first run.</p>
+ </div>
+</main>
+
+<footer>AutoClicker · ProjectBergmannstrasse · served entirely client-side</footer>
+</div>
+<div class="tbar-pad"></div>
+<nav class="tbar" role="tablist" aria-label="Site navigation"><span class="tpill" id="tpill"></span>
+<button role="tab" aria-selected="true"><span class="ic">⌂</span><span class="lb">Home</span></button>
+<button role="tab" aria-selected="false"><span class="ic">▤</span><span class="lb">Builds</span></button>
+<button role="tab" aria-selected="false"><span class="ic">▶</span><span class="lb">Slideshow</span></button>
+<button role="tab" aria-selected="false"><span class="ic">✳</span><span class="lb">Credits</span></button>
+</nav>
+
+<script src="data.js"></script><script>
+(function(){
+"use strict";
+var V=(typeof VERSIONS!=="undefined")?VERSIONS:[];
+var $=function(id){return document.getElementById(id)};
+if(!V.length){var e=$("empty");if(e)e.style.display="block";return;}
+function fmtB(b){if(b>=1048576)return (b/1048576).toFixed(1)+" MB";if(b>=1024)return (b/1024|0)+" KB";return b+" B"}
+function fmtN(n){try{return n.toLocaleString("en-US")}catch(e){return String(n)}}
+function enc(f){return encodeURIComponent(f)}
+var totL=0,maxL=0,maxB=0,preMaxL=0,preMaxB=0,N=V.length;
+V.forEach(function(d,i){totL+=d.lines;if(d.lines>maxL)maxL=d.lines;if(d.bytes>maxB)maxB=d.bytes;
+ if(i<N-1){if(d.lines>preMaxL)preMaxL=d.lines;if(d.bytes>preMaxB)preMaxB=d.bytes;}});
+var first=V[0],last=V[N-1];
+function revealAll(){try{var v=views[sel];if(v){v.hidden=false;v.style.opacity="1"}}catch(e){}}
+try{if(window.addEventListener){window.addEventListener("error",revealAll);window.addEventListener("unhandledrejection",revealAll);}}catch(e){}
+
+var views=[$("view-home"),$("view-builds"),$("view-show"),$("view-credits"),$("view-source")];
+var HASH=["home","builds","show","credits","source"];
+var bs=[].slice.call(document.querySelectorAll(".tbar button"));
+var pill=$("tpill"),sel=0,showInit=false;
+function align(i){var b=bs[i];if(!b||!pill)return;pill.style.left=(b.offsetLeft||0)+"px";pill.style.width=(b.offsetWidth||0)+"px"}
+function anim(el){if(!el)return;try{el.classList.remove("pageanim");void el.offsetWidth;el.classList.add("pageanim");setTimeout(function(){el.classList.remove("pageanim")},700)}catch(e){}}
+function show(i,noHash){
+ sel=i;var lit=(i===4?1:i);
+ bs.forEach(function(b,j){b.setAttribute("aria-selected",j===lit?"true":"false")});align(lit);
+ views.forEach(function(v,j){if(v)v.hidden=(j!==i)});
+ if(i===2){initShow();play(true)}else{play(false)}
+ anim(views[i]);
+ if(!noHash&&window.history&&history.replaceState){try{history.replaceState(null,"","#"+HASH[i])}catch(e){}}
+ try{window.scrollTo(0,0)}catch(e){}
+}
+bs.forEach(function(b,i){b.addEventListener("click",function(){show(i)})});
+if(window.addEventListener){window.addEventListener("resize",function(){align(sel)});
+ window.addEventListener("load",function(){align(sel)});
+ window.addEventListener("hashchange",function(){var k=HASH.indexOf((location.hash||"").replace("#",""));if(k>=0&&k!==sel)show(k,true)});}
+[].slice.call(document.querySelectorAll("[data-tab]")).forEach(function(a){
+ a.addEventListener("click",function(ev){ev.preventDefault();show(+this.getAttribute("data-tab"))})});
+
+/* ===== slideshow ===== */
+var cur=0,timer=null,ms=5000,playing=false;
+var img=$("shot"),scrub=$("scrub"),capVer=$("capVer"),capNote=$("capNote"),capX=$("capX");
+function paint(){
+ var d=V[cur];img.src="./shots/"+d.shot;img.alt="AutoClicker "+d.ver+" screen";
+ capVer.textContent=d.ver;capNote.textContent=d.note;
+ capX.textContent="build "+d.seq+" / "+fmtN(N);
+ if(+scrub.value!==cur)scrub.value=cur;
+}
+function step(){cur=(cur+1)%N;paint()}
+function schedule(){if(timer)clearTimeout(timer);if(!playing)return;
+ timer=setTimeout(function(){step();schedule()},ms)}
+function play(on){playing=on;var b=$("playBtn");
+ if(on){b.textContent="⏸ Pause";b.classList.add("on")}else{b.textContent="▶ Play";b.classList.remove("on")}
+ schedule()}
+function initShow(){if(showInit)return;showInit=true;paint();
+ // preload a few ahead
+ for(var i=0;i<6;i++){var im=new Image();im.src="./shots/"+V[i].shot}}
+$("playBtn").addEventListener("click",function(){play(!playing)});
+$("prevBtn").addEventListener("click",function(){cur=(cur-1+N)%N;paint();schedule()});
+$("nextBtn").addEventListener("click",function(){step();schedule()});
+scrub.addEventListener("input",function(){cur=+this.value;paint();schedule()});
+[].slice.call(document.querySelectorAll(".spd")).forEach(function(b){
+ b.addEventListener("click",function(){ms=+this.getAttribute("data-ms");
+  [].slice.call(document.querySelectorAll(".spd")).forEach(function(x){x.classList.remove("on")});
+  this.classList.add("on");if(!playing)play(true);else schedule()})});
+
+/* ===== source viewer ===== */
+var SRC={lines:[],shown:0,CHUNK:2500,text:""};
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function renderChunk(){
+ var wrap=$("codewrap"),tbl=wrap.querySelector("table");
+ if(!tbl){wrap.innerHTML="<table><tbody></tbody></table>";tbl=wrap.querySelector("table")}
+ var tb=tbl.querySelector("tbody"),end=Math.min(SRC.lines.length,SRC.shown+SRC.CHUNK),html="";
+ for(var i=SRC.shown;i<end;i++){html+="<tr><td class='lnum'>"+(i+1)+"</td><td class='lcode'>"+esc(SRC.lines[i])+"</td></tr>"}
+ tb.insertAdjacentHTML("beforeend",html);SRC.shown=end;
+ var more=$("srcMore");
+ if(SRC.shown<SRC.lines.length){more.innerHTML='<button class="srcbtn" id="srcMoreBtn">Show more · '+(SRC.lines.length-SRC.shown).toLocaleString()+' lines left</button>';$("srcMoreBtn").addEventListener("click",renderChunk)}
+ else{more.innerHTML='<span style="color:var(--faint);font-size:12px">End · '+SRC.lines.length.toLocaleString()+' lines</span>'}
+}
+function openSource(idx){
+ var d=V[idx];SRC.lines=[];SRC.shown=0;
+ $("srcTitle").textContent="AutoClicker "+d.ver;
+ $("srcMeta").innerHTML="build "+d.seq+" of "+fmtN(N)+" · <b>"+fmtB(d.bytes)+"</b> · <b>"+fmtN(d.lines)+" lines</b> · Python";
+ $("srcNote").textContent=d.note||"";
+ var url="./versions/"+enc(d.file);
+ $("srcRun").href=url;$("srcDl").href=url;$("srcDl").setAttribute("download",d.file);
+ $("srcMore").innerHTML="";show(4);
+ $("codewrap").innerHTML='<div class="srcload">Loading '+fmtB(d.bytes)+'…</div>';
+ fetch(url).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()})
+ .then(function(t){SRC.text=t;SRC.lines=t.split("\n");$("codewrap").innerHTML="";renderChunk()})
+ .catch(function(e){$("codewrap").innerHTML='<div class="srcload">Could not load ('+e.message+'). <a href="'+url+'">Open directly →</a></div>'});
+}
+$("srcBack").addEventListener("click",function(){show(1)});
+$("srcCopy").addEventListener("click",function(){var b=this;
+ (navigator.clipboard&&SRC.text?navigator.clipboard.writeText(SRC.text):Promise.reject())
+ .then(function(){b.textContent="Copied ✓";setTimeout(function(){b.textContent="Copy all"},1400)},
+       function(){b.textContent="Use Download";setTimeout(function(){b.textContent="Copy all"},1800)})});
+$("rows").addEventListener("click",function(ev){var a=ev.target;
+ if(a&&a.getAttribute&&a.getAttribute("data-src")!==null){ev.preventDefault();openSource(+a.getAttribute("data-src"))}});
+
+/* ===== stats ===== */
+var growth=Math.round(last.lines/first.lines);
+var stats=[[N,"builds shown",1],[5.6,"shipped version",10],[totL,"total lines",1],
+ [last.lines,"lines in v5.6",1],[first.lines,"lines at the start",1],[growth,"× growth",1]];
+var sEl=$("stats");
+stats.forEach(function(s){var d=document.createElement("div");d.className="stat";
+ d.innerHTML='<div class="n" data-t="'+s[0]+'" data-m="'+s[2]+'">0</div><div class="l">'+s[1]+"</div>";sEl.appendChild(d)});
+var reduce=(window.matchMedia?matchMedia("(prefers-reduced-motion: reduce)").matches:false);
+[].slice.call(document.querySelectorAll(".stat .n")).forEach(function(el){
+ var t=parseFloat(el.dataset.t),m=+el.dataset.m;
+ function sv(v){el.textContent=(m===10?v.toFixed(1):fmtN(Math.round(v)))}
+ if(reduce||!window.requestAnimationFrame){sv(t);return}
+ var st=null;(function stp(ts){if(ts===undefined){requestAnimationFrame(stp);return}if(!st)st=ts;var k=Math.min(1,(ts-st)/700);k=1-Math.pow(1-k,3);sv(t*k);if(k<1)requestAnimationFrame(stp)})();
+});
+
+/* ===== chart ===== */
+var svg=$("chart"),tip=$("tip"),box=$("chartbox"),mode="lines",era="all";
+function draw(){
+ var W=1000,H=260,pad=4,data=era==="all"?V:V.slice(0,N-1),n=data.length,bw=(W-pad*2)/n;
+ var mx=mode==="lines"?(era==="all"?maxL:preMaxL):(era==="all"?maxB:preMaxB),out=[];
+ for(var i=0;i<n;i++){var d=data[i],val=mode==="lines"?d.lines:d.bytes,h=Math.max(2,(val/mx)*(H-10));
+  out.push('<rect class="bar" data-i="'+i+'" x="'+(pad+i*bw).toFixed(2)+'" y="'+(H-h).toFixed(2)+'" width="'+Math.max(1,bw-1).toFixed(2)+'" height="'+h.toFixed(2)+'"></rect>')}
+ svg.innerHTML=out.join("");
+ $("chartLabel").textContent=(mode==="lines"?"code lines":"file size")+" per build"+(era==="all"?"":" · before the shipped build");
+ $("chartnote").textContent=era==="all"
+  ?"The shipped build (v5.6) is the tall bar on the right — ~"+growth+"× the first build. Switch to “before shipped” to see the earlier builds grow."
+  :"The 59 builds before the shipped rewrite: "+fmtN(first.lines)+" → "+fmtN(V[N-2].lines)+" lines.";
+}
+try{draw()}catch(e){revealAll()}
+svg.addEventListener("mousemove",function(e){var t=e.target;
+ if(!t.classList||!t.classList.contains("bar")){tip.classList.remove("on");return}
+ var data=era==="all"?V:V.slice(0,N-1),d=data[+t.dataset.i];
+ tip.innerHTML="<b>"+d.ver+"</b> <span class='d'>build "+d.seq+"</span><br>"+fmtN(d.lines)+" lines · "+fmtB(d.bytes);
+ var r=box.getBoundingClientRect(),x=Math.min(e.clientX-r.left+12,Math.max(0,r.width-tip.offsetWidth-8));
+ tip.style.left=x+"px";tip.style.top=(e.clientY-r.top-44)+"px";tip.classList.add("on")});
+svg.addEventListener("mouseleave",function(){tip.classList.remove("on")});
+$("btnLines").addEventListener("click",function(){mode="lines";this.classList.add("on");$("btnBytes").classList.remove("on");draw()});
+$("btnBytes").addEventListener("click",function(){mode="bytes";this.classList.add("on");$("btnLines").classList.remove("on");draw()});
+$("erAll").addEventListener("click",function(){era="all";this.classList.add("on");$("erPre").classList.remove("on");draw()});
+$("erPre").addEventListener("click",function(){era="pre";this.classList.add("on");$("erAll").classList.remove("on");draw()});
+
+/* ===== milestones ===== */
+var miles=[["Start","A blank window — "+fmtN(first.lines)+" lines."],
+ ["tkinter era","A real GUI: Start/Stop, CPS box, dropdowns, dark theme, stats."],
+ ["Textual rewrite","Rebuilt as a terminal UI — tabs, ASCII header, emulation recorder."],
+ ["v5.6 — shipped","The build customers buy — "+fmtN(last.lines)+" lines."]];
+$("miles").innerHTML=miles.map(function(m){return '<div class="mile"><div class="mv">'+m[0]+'</div><div class="mt">'+m[1]+"</div></div>"}).join("");
+
+/* ===== builds table ===== */
+var rowsEl=$("rows"),cnt=$("cnt"),empty=$("empty"),q="",sortMode="old";
+function render(){
+ var list=V.map(function(d,i){return{d:d,i:i}});
+ if(q){var Q=q.toLowerCase();list=list.filter(function(r){return r.d.ver.toLowerCase().indexOf(Q)>=0||r.d.seq.indexOf(Q)>=0||(r.d.note||"").toLowerCase().indexOf(Q)>=0})}
+ if(sortMode==="new")list.reverse();else if(sortMode==="big")list.sort(function(a,b){return b.d.bytes-a.d.bytes});
+ rowsEl.innerHTML=list.map(function(r){var d=r.d,w=Math.max(1,Math.round(d.bytes/maxB*90));
+  return "<tr><td><span class='seq'>"+d.seq+"</span> <span class='ver'>"+d.ver+"</span><div class='bnote'>"+(d.note||"")+"</div></td>"+
+   "<td class='num'><span class='sizebar' style='width:"+w+"px'></span>"+fmtB(d.bytes)+"</td>"+
+   "<td class='num'>"+fmtN(d.lines)+"</td>"+
+   "<td><span class='acts'><a href='./versions/"+enc(d.file)+"' target='_blank' rel='noopener'>open</a>"+
+   "<a href='./versions/"+enc(d.file)+"' download>save</a>"+
+   "<a href='#source' data-src='"+r.i+"'>source</a></span></td></tr>"}).join("");
+ cnt.textContent=list.length+" / "+N;empty.style.display=list.length?"none":"block";}
+$("q").addEventListener("input",function(){q=this.value.trim();render()});
+$("sort").addEventListener("change",function(){sortMode=this.value;render()});
+try{render()}catch(e){revealAll()}
+
+try{if(window.requestAnimationFrame){requestAnimationFrame(function(){requestAnimationFrame(function(){try{if(sel===0)document.body.classList.add("anim-ok")}catch(e){}})})}}catch(e){}
+try{var _k=HASH.indexOf((location.hash||"").replace("#",""));if(_k>0)show(_k,true)}catch(e){revealAll()}
+})();
+</script></body></html>
