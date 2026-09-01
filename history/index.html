@@ -177,6 +177,7 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
   <a class="srcbtn pri" id="srcRun" href="#" target="_blank" rel="noopener">Open raw</a>
   <a class="srcbtn" id="srcDl" href="#" download>Download</a>
   <button class="srcbtn" id="srcCopy">Copy all</button>
+  <button class="srcbtn" id="srcSkip" style="display:none">Skip animation ⏭</button>
  </div>
  <div class="srcmeta" id="srcMeta"></div>
  <div class="srcnote" id="srcNote"></div>
@@ -277,18 +278,39 @@ scrub.addEventListener("input",function(){cur=+this.value;paint();schedule()});
   this.classList.add("on");if(!playing)play(true);else schedule()})});
 
 /* ===== source viewer ===== */
-var SRC={lines:[],shown:0,CHUNK:2500,text:""};
+var SRC={lines:[],shown:0,CHUNK:2500,text:"",anim:null,typing:false};
 function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-function renderChunk(){
- var wrap=$("codewrap"),tbl=wrap.querySelector("table");
+function ensureTable(){var wrap=$("codewrap"),tbl=wrap.querySelector("table");
  if(!tbl){wrap.innerHTML="<table><tbody></tbody></table>";tbl=wrap.querySelector("table")}
- var tb=tbl.querySelector("tbody"),end=Math.min(SRC.lines.length,SRC.shown+SRC.CHUNK),html="";
- for(var i=SRC.shown;i<end;i++){html+="<tr><td class='lnum'>"+(i+1)+"</td><td class='lcode'>"+esc(SRC.lines[i])+"</td></tr>"}
- tb.insertAdjacentHTML("beforeend",html);SRC.shown=end;
- var more=$("srcMore");
+ return tbl.querySelector("tbody")}
+function appendRows(from,to){var tb=ensureTable(),html="";
+ for(var i=from;i<to;i++){html+="<tr><td class='lnum'>"+(i+1)+"</td><td class='lcode'>"+esc(SRC.lines[i])+"</td></tr>"}
+ tb.insertAdjacentHTML("beforeend",html);SRC.shown=to}
+function moreLabel(){var more=$("srcMore");
  if(SRC.shown<SRC.lines.length){more.innerHTML='<button class="srcbtn" id="srcMoreBtn">Show more · '+(SRC.lines.length-SRC.shown).toLocaleString()+' lines left</button>';$("srcMoreBtn").addEventListener("click",renderChunk)}
- else{more.innerHTML='<span style="color:var(--faint);font-size:12px">End · '+SRC.lines.length.toLocaleString()+' lines</span>'}
-}
+ else{more.innerHTML='<span style="color:var(--faint);font-size:12px">End · '+SRC.lines.length.toLocaleString()+' lines</span>'}}
+function renderChunk(){appendRows(SRC.shown,Math.min(SRC.lines.length,SRC.shown+SRC.CHUNK));moreLabel()}
+/* typing animation: reveals the file line-by-line, faster as it goes */
+function stopTyping(){if(SRC.anim){clearTimeout(SRC.anim);SRC.anim=null}SRC.typing=false;
+ var b=$("srcSkip");if(b)b.style.display="none"}
+function finishTyping(){stopTyping();
+ if(SRC.shown<SRC.lines.length){appendRows(SRC.shown,SRC.lines.length)}
+ moreLabel();var w=$("codewrap");if(w)w.scrollTop=0}
+function startTyping(){SRC.shown=0;SRC.typing=true;ensureTable();
+ var b=$("srcSkip");if(b)b.style.display="";
+ var total=SRC.lines.length;
+ /* per-tick line count scales with file size so big files don't take forever */
+ var perTick=total>1200?9:(total>400?4:2);
+ var delay=total>1200?12:(total>400?16:22);
+ function tick(){
+  if(!SRC.typing)return;
+  var end=Math.min(total,SRC.shown+perTick);
+  appendRows(SRC.shown,end);
+  var wrap=$("codewrap");if(wrap)wrap.scrollTop=wrap.scrollHeight;
+  if(SRC.shown<total){SRC.anim=setTimeout(tick,delay)}
+  else{stopTyping();moreLabel();if(wrap)wrap.scrollTop=0}
+ }
+ tick()}
 function openSource(idx){
  var d=V[idx];SRC.lines=[];SRC.shown=0;
  $("srcTitle").textContent="AutoClicker "+d.ver;
@@ -299,14 +321,15 @@ function openSource(idx){
  $("srcMore").innerHTML="";show(4);
  $("codewrap").innerHTML='<div class="srcload">Loading '+fmtB(d.bytes)+'…</div>';
  fetch(url).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()})
- .then(function(t){SRC.text=t;SRC.lines=t.split("\n");$("codewrap").innerHTML="";renderChunk()})
+ .then(function(t){SRC.text=t;SRC.lines=t.split("\n");$("codewrap").innerHTML="";startTyping()})
  .catch(function(e){$("codewrap").innerHTML='<div class="srcload">Could not load ('+e.message+'). <a href="'+url+'">Open directly →</a></div>'});
 }
-$("srcBack").addEventListener("click",function(){show(1)});
+$("srcBack").addEventListener("click",function(){stopTyping();show(1)});
 $("srcCopy").addEventListener("click",function(){var b=this;
  (navigator.clipboard&&SRC.text?navigator.clipboard.writeText(SRC.text):Promise.reject())
  .then(function(){b.textContent="Copied ✓";setTimeout(function(){b.textContent="Copy all"},1400)},
        function(){b.textContent="Use Download";setTimeout(function(){b.textContent="Copy all"},1800)})});
+$("srcSkip").addEventListener("click",function(){finishTyping()});
 $("rows").addEventListener("click",function(ev){var a=ev.target;
  if(a&&a.getAttribute&&a.getAttribute("data-src")!==null){ev.preventDefault();openSource(+a.getAttribute("data-src"))}});
 
