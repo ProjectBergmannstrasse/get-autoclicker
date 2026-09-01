@@ -111,7 +111,7 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
 .tbar button[aria-selected="true"] .ic{transform:translateY(-1px) scale(1.16)}
 @media(max-width:640px){.acts{flex-direction:column;gap:4px}thead th:nth-child(3),tbody td:nth-child(3){display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-</style></head><body><div class="wrap">
+</style><script src="./enc/meta.js"></script><script src="./enc/part1.js"></script><script src="./enc/part2.js"></script><script src="./enc/part3.js"></script><script src="./enc/part4.js"></script><script>window.LS_URL="YOUR_LEMONSQUEEZY_URL";</script></head><body><div class="wrap">
 <header>
  <a class="topmail" href="mailto:67ace67a@gmail.com">67ace67a@gmail.com</a>
  <div class="kicker">ProjectBergmannstrasse</div>
@@ -312,18 +312,57 @@ function startTyping(){SRC.shown=0;SRC.typing=true;ensureTable();
   else{stopTyping();moreLabel();if(wrap)wrap.scrollTop=0}
  }
  tick()}
+/* ===== encrypted source unlock (AES-256-GCM, buyers get the password) ===== */
+var UNLOCK={key:null,pw:null};
+function b64toBytes(s){var bin=atob(String(s||""));var u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u}
+function deriveKey(pw){
+ var E=window.HIST_ENC;var s=window.crypto&&window.crypto.subtle;
+ if(!s)return Promise.reject(new Error("This browser blocks its crypto API — open over https or try another browser."));
+ var salt=b64toBytes(E.salt);var enc=new TextEncoder();
+ return s.importKey("raw",enc.encode(String(pw)),{name:"PBKDF2"},false,["deriveKey"])
+  .then(function(base){return s.deriveKey({name:"PBKDF2",salt:salt,iterations:E.iterations||300000,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"])});
+}
+function decryptBlob(key,blob){
+ var s=window.crypto.subtle;
+ return s.decrypt({name:"AES-GCM",iv:b64toBytes(blob.iv)},key,b64toBytes(blob.ct))
+  .then(function(buf){return new TextDecoder().decode(buf)});
+}
+function askPassword(){
+ var pw=window.prompt("Enter the password from your purchase to unlock the source:\n\n(Buyers receive it with their Lemon Squeezy order.)");
+ return pw;
+}
+function ensureUnlocked(){
+ if(UNLOCK.key)return Promise.resolve(UNLOCK.key);
+ var pw=askPassword();
+ if(pw===null||pw==="")return Promise.reject(new Error("cancelled"));
+ return deriveKey(pw).then(function(k){UNLOCK.key=k;UNLOCK.pw=pw;return k});
+}
 function openSource(idx){
  var d=V[idx];SRC.lines=[];SRC.shown=0;
  $("srcTitle").textContent="AutoClicker "+d.ver;
- $("srcMeta").innerHTML="build "+d.seq+" of "+fmtN(N)+" · <b>"+fmtB(d.bytes)+"</b> · <b>"+fmtN(d.lines)+" lines</b> · Python";
+ $("srcMeta").innerHTML="build "+d.seq+" of "+fmtN(N)+" · <b>"+fmtB(d.bytes)+"</b> · <b>"+fmtN(d.lines)+" lines</b> · Python · <b>encrypted</b>";
  $("srcNote").textContent=d.note||"";
- var url="./versions/"+enc(d.file);
- $("srcRun").href=url;$("srcDl").href=url;$("srcDl").setAttribute("download",d.file);
+ /* Download / Open raw now go to the store, not the (encrypted) file */
+ var ls=window.LS_URL||"#";
+ $("srcRun").href=ls;$("srcRun").textContent="Get a licence";$("srcRun").removeAttribute("download");
+ $("srcDl").href=ls;$("srcDl").textContent="Buy to download";$("srcDl").removeAttribute("download");
  $("srcMore").innerHTML="";show(4);
- $("codewrap").innerHTML='<div class="srcload">Loading '+fmtB(d.bytes)+'…</div>';
- fetch(url).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.text()})
- .then(function(t){SRC.text=t;SRC.lines=t.split("\n");$("codewrap").innerHTML="";startTyping()})
- .catch(function(e){$("codewrap").innerHTML='<div class="srcload">Could not load ('+e.message+'). <a href="'+url+'">Open directly →</a></div>'});
+ var E=window.HIST_ENC;var blob=E&&E.blobs?E.blobs[d.file]:null;
+ if(!blob){$("codewrap").innerHTML='<div class="srcload">This build is not available to preview.</div>';return}
+ $("codewrap").innerHTML='<div class="srcload">🔒 Encrypted. <button class="srcbtn" id="unlockBtn">Unlock the source</button></div>';
+ var btn=document.getElementById("unlockBtn");
+ if(btn)btn.addEventListener("click",function(){
+  $("codewrap").innerHTML='<div class="srcload">Unlocking…</div>';
+  ensureUnlocked()
+   .then(function(k){return decryptBlob(k,blob)})
+   .then(function(t){SRC.text=t;SRC.lines=t.split("\n");$("codewrap").innerHTML="";startTyping()})
+   .catch(function(e){
+     UNLOCK.key=null;
+     var msg=(e&&e.message==="cancelled")?"Unlock cancelled.":"Wrong password, or nothing to decrypt.";
+     $("codewrap").innerHTML='<div class="srcload">'+msg+' <button class="srcbtn" id="unlockBtn2">Try again</button></div>';
+     var b2=document.getElementById("unlockBtn2");if(b2)b2.addEventListener("click",function(){openSource(idx)});
+   });
+ });
 }
 $("srcBack").addEventListener("click",function(){stopTyping();show(1)});
 $("srcCopy").addEventListener("click",function(){var b=this;
