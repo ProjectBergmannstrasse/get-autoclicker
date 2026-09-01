@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your AutoClicker — Everything you need is on this page</title>
+<style>
+:root{
+  --bg:#0b0b0f;--panel:#14141b;--panel2:#1b1b24;--line:#2a2a36;--line2:#3a3a48;
+  --fg:#f4f4f6;--dim:#a6a6b2;--faint:#6f6f7d;--accent:#5b8cff;--good:#37d67a;
+  --warn:#ffb020;--danger:#ff5470;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:0 0 80px}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header.top{padding:48px 0 28px;text-align:center;border-bottom:1px solid var(--line)}
+.badge{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--good);border:1px solid var(--line2);border-radius:999px;padding:5px 14px;margin-bottom:18px}
+h1{font-size:clamp(26px,5vw,38px);font-weight:800;letter-spacing:-.02em}
+h1 .sub{display:block;color:var(--dim);font-size:16px;font-weight:500;margin-top:12px;letter-spacing:0}
+section{margin:36px 0;padding:26px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+h2{font-size:19px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.step-n{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--accent);color:#fff;border-radius:8px;font-size:14px;font-weight:800;flex:none}
+p{color:var(--dim);margin:10px 0}
+p b,li b{color:var(--fg)}
+ol,ul{margin:10px 0 10px 22px;color:var(--dim)}
+li{margin:7px 0}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-color:var(--accent)}
+.btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:12px 20px;border-radius:10px;border:0;cursor:pointer;text-decoration:none;font-size:15px;margin:8px 8px 8px 0}
+.btn:hover{filter:brightness(1.08)}
+.pwbox{background:linear-gradient(180deg,#1d2740,#141c2e);border:1px solid #33436b;border-radius:14px;padding:22px;text-align:center;margin-top:6px}
+.pwlabel{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8fb0ff;margin-bottom:12px}
+.pwrow{display:flex;gap:10px;align-items:stretch;justify-content:center;flex-wrap:wrap}
+.pwval{font:700 26px/1.2 var(--mono);letter-spacing:2px;background:#0b1224;border:1px solid #33436b;border-radius:10px;padding:14px 22px;color:#fff;user-select:all;word-break:break-all}
+.copybtn{background:var(--good);color:#052012;font-weight:800;border:0;border-radius:10px;padding:0 22px;cursor:pointer;font-size:15px}
+.copybtn:hover{filter:brightness(1.06)}
+.copybtn.done{background:#1f8f4e;color:#fff}
+.pwhint{color:#8fb0ff;font-size:13px;margin-top:14px}
+code,.cmd{font-family:var(--mono);background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 7px;font-size:14px;color:#e8e8ee}
+.cmd{display:block;padding:14px 16px;margin:10px 0;overflow-x:auto;white-space:pre;border-radius:10px;position:relative}
+.os-tabs{display:flex;gap:6px;margin:6px 0 4px;flex-wrap:wrap}
+.os-tab{background:var(--panel2);border:1px solid var(--line2);color:var(--dim);border-radius:8px;padding:7px 14px;cursor:pointer;font-size:14px;font-weight:600}
+.os-tab.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.osblock{display:none}
+.osblock.on{display:block}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin-top:14px;align-items:center}
+.keys kbd{font-family:var(--mono);background:#0b1224;border:1px solid var(--line2);border-bottom-width:2px;border-radius:6px;padding:3px 9px;font-size:13px;color:#fff;justify-self:start}
+.callout{border-left:3px solid var(--warn);background:rgba(255,176,32,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;color:var(--dim);font-size:14.5px}
+.callout.good{border-color:var(--good);background:rgba(55,214,122,.07)}
+.safe-list li{margin:9px 0}
+.eula{background:var(--panel2)}
+.eula h2{font-size:17px}
+.eula details{border-top:1px solid var(--line);padding:14px 0}
+.eula details:first-of-type{border-top:0}
+.eula summary{cursor:pointer;font-weight:700;color:var(--fg);list-style:none}
+.eula summary::-webkit-details-marker{display:none}
+.eula summary::before{content:"+ ";color:var(--accent);font-weight:800}
+.eula details[open] summary::before{content:"– "}
+.eula .body{color:var(--dim);font-size:14.5px;margin-top:10px;padding-left:4px}
+.eula .body p{margin:8px 0}
+.note{color:var(--faint);font-size:13px;margin-top:18px;font-style:italic}
+footer{text-align:center;color:var(--faint);font-size:14px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
+footer a{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="badge">✓ Purchase complete</span>
+    <h1>Thank you — you're all set.
+      <span class="sub">Everything you need is on this page. Keep it, or bookmark your receipt.</span>
+    </h1>
+  </header>
+  <section>
+    <div class="pwlabel">🔑 Your unlock password</div>
+    <div class="pwbox">
+      <div class="pwrow">
+        <span class="pwval" id="pw">ukUr908)</span>
+        <button class="copybtn" id="copyPw">Copy</button>
+      </div>
+      <div class="pwhint">This unlocks the source on the AutoClicker page. Keep it private — it's tied to your licence.</div>
+    </div>
+  </section>
+  <section>
+    <h2><span class="step-n">1</span> Get the files</h2>
+    <p>Open the AutoClicker page and unlock the source with your password:</p>
+    <a class="btn" href="https://projectbergmannstrasse.github.io/get-autoclicker/" target="_blank" rel="noopener">Open AutoClicker →</a>
+    <ol>
+      <li>Click <b>"Unlock the source"</b> (bottom-right).</li>
+      <li>Paste your password: <code>ukUr908)</code></li>
+      <li>Download the build for your system — <b>Windows</b>, <b>macOS</b>, or <b>Linux</b> (use the <b>universal</b> build for Linux, it works everywhere).</li>
+    </ol>
+    <div class="callout good">You get <b>all three builds</b> and <b>every future update</b> — just come back and unlock again with the same password.</div>
+  </section>
+  <section>
+    <h2><span class="step-n">2</span> Install Python</h2>
+    <p>The AutoClicker runs on Python. If you don't already have it:</p>
+    <a class="btn" href="https://www.python.org/downloads/" target="_blank" rel="noopener">Download Python →</a>
+    <ul>
+      <li>Any <b>Python 3.8 or newer</b> works.</li>
+      <li><b>Windows users:</b> on the first screen of the installer, <b>tick "Add Python to PATH"</b> before clicking Install. This one checkbox saves a lot of trouble.</li>
+      <li>Not sure how? Search <a href="https://www.youtube.com/results?search_query=how+to+install+python" target="_blank" rel="noopener">"how to install Python"</a> on YouTube — it's a 2-minute job.</li>
+    </ul>
+  </section>
+  <section>
+    <h2><span class="step-n">3</span> Run it</h2>
+    <p>Open a terminal in the folder where you saved the file, then run the command for your system:</p>
+    <div class="os-tabs">
+      <button class="os-tab on" data-os="win">Windows</button>
+      <button class="os-tab" data-os="mac">macOS</button>
+      <button class="os-tab" data-os="lin">Linux</button>
+    </div>
+    <div class="osblock on" data-os="win"><div class="cmd">python "autoclicker-windows.py"</div></div>
+    <div class="osblock" data-os="mac"><div class="cmd">python3 "autoclicker-macos.py"</div></div>
+    <div class="osblock" data-os="lin"><div class="cmd">python3 "autoclicker-universal.py"</div></div>
+    <div class="callout">On the <b>first run</b> it lists a few small packages it needs, asks you, and installs them itself behind a progress bar. Nothing to set up by hand.</div>
+    <p style="margin-top:18px"><b>Hotkeys once it's running:</b></p>
+    <div class="keys">
+      <kbd>F8</kbd><span>Start / stop clicking</span>
+      <kbd>F9</kbd><span>Pause / resume</span>
+      <kbd>Esc ×3</kbd><span>Quit (press Esc three times fast)</span>
+      <kbd>Mouse → corner</kbd><span>Panic stop — slam the pointer into the top-left corner and everything stops instantly</span>
+    </div>
+  </section>
+  <section>
+    <h2>🛡️ Is it safe? Yes — and you can check.</h2>
+    <p>You didn't buy a mystery <code>.exe</code>. You bought <b>readable source code</b>, and that's the whole point:</p>
+    <ul class="safe-list">
+      <li><b>Every line is human-readable Python.</b> Nothing is compiled, packed, or hidden.</li>
+      <li><b>Read it yourself</b> — open the file in any text editor and see exactly what it does.</li>
+      <li><b>Run it past your antivirus</b>, or paste it into an AI and ask "is there anything sketchy in here?" — you can verify the whole program before you run it.</li>
+      <li>The encryption only protected the file <i>in transit</i> so non-buyers couldn't take it. Once you unlock it, it's plain source that's yours to inspect.</li>
+    </ul>
+  </section>
+  <section class="eula">
+    <h2>📜 Licence agreement (EULA)</h2>
+    <p style="margin-top:0">By downloading, unlocking, or running the software you agree to the following.</p>
+    <details open><summary>1. Licence grant</summary><div class="body"><p>You are granted a single-person, non-exclusive, non-transferable licence to download, install, run, and privately study the AutoClicker source and its builds ("the Software") for your own personal use, on devices you own or control. You may keep a private backup copy.</p></div></details>
+    <details><summary>2. Restrictions</summary><div class="body"><p>You may not, in whole or in part: share, publish, post, mirror, leak, or distribute the Software or its source to anyone or the public, free or paid; resell, sublicence, rent, lease, or transfer the Software or your licence; modify, fork, or repackage the Software and then distribute or sell the result; remove or bypass the encryption, password gate, or licensing; or share your unlock password with anyone who has not bought their own licence.</p></div></details>
+    <details><summary>3. Your responsibility (ban risk)</summary><div class="body"><p>The Software automates mouse and keyboard input. Some games, websites and platforms forbid automation, and using it may get your account warned, suspended, or banned. You accept that risk entirely. You are responsible for using the Software lawfully and within the rules of any service you use it on. It is provided for lawful, educational use.</p></div></details>
+    <details><summary>4. No warranty</summary><div class="body"><p>The Software is provided "AS IS", without warranty of any kind, express or implied, including fitness for a particular purpose, merchantability, or non-infringement. It may contain bugs. Use it at your own risk.</p></div></details>
+    <details><summary>5. Limitation of liability</summary><div class="body"><p>To the maximum extent permitted by law, the Author's total liability for any claim relating to the Software or this licence will not exceed the amount you paid. The Author is not liable for any indirect, incidental, special, consequential, or punitive damages, including account bans, data loss, or hardware issues.</p></div></details>
+    <details><summary>6. Indemnification</summary><div class="body"><p>You agree to indemnify and hold harmless the Author from any claim, loss, or expense (including reasonable legal costs) arising from your use of the Software or your breach of this licence.</p></div></details>
+    <details><summary>7. Termination</summary><div class="body"><p>This licence ends automatically and immediately if you breach any restriction in Section 2. On termination you must stop using the Software and delete all copies you hold.</p></div></details>
+    <details><summary>8. Enforcement &amp; legal action</summary><div class="body"><p>Sharing, leaking, reselling, or redistributing the Software or its password is a material breach and an infringement of the Author's copyright. The Author monitors for leaked copies, may individually identify each licensed copy and password delivery, and reserves the right to pursue all available remedies — including revoking your licence with no refund, claiming damages (including lost sales and any profit you made), seeking injunctions to stop further distribution, and recovering legal costs. Legal action may be taken against you personally.</p></div></details>
+    <details><summary>9. Refund policy (14 days)</summary><div class="body"><p>If the Software does not work for you, you may request a refund within <b>14 days</b> of purchase by emailing support. Because the source is delivered in readable form and can be copied on unlock, refunds may be declined where there is evidence the Software has been redistributed or the licence otherwise breached.</p></div></details>
+    <details><summary>10. Governing law</summary><div class="body"><p>This licence is governed by the laws of the United Arab Emirates, and any dispute is subject to the exclusive jurisdiction of the competent courts of the UAE.</p></div></details>
+    <p class="note">This EULA is a plain-language template provided for convenience. It is not legal advice. For a product you sell, consider having it reviewed by a qualified lawyer.</p>
+  </section>
+  <footer>
+    Questions or trouble getting it running?<br>
+    Email <a href="mailto:67ace67a@gmail.com">67ace67a@gmail.com</a> — happy to help.<br>
+    <span style="color:var(--faint)">© ProjectBergmannstrasse. All rights reserved.</span>
+  </footer>
+</div>
+<script>
+(function(){
+  var pw=document.getElementById("pw"), btn=document.getElementById("copyPw");
+  if(btn)btn.addEventListener("click",function(){
+    var text=pw.textContent;
+    var done=function(){btn.textContent="Copied ✓";btn.classList.add("done");setTimeout(function(){btn.textContent="Copy";btn.classList.remove("done")},1600)};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){fallback(text,done)})}
+    else fallback(text,done);
+  });
+  function fallback(text,done){try{var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();document.execCommand("copy");document.body.removeChild(t);done()}catch(e){alert("Copy failed — select the password and copy it manually.")}}
+  var tabs=[].slice.call(document.querySelectorAll(".os-tab"));
+  tabs.forEach(function(tab){tab.addEventListener("click",function(){
+    var os=tab.getAttribute("data-os");
+    tabs.forEach(function(t){t.classList.toggle("on",t===tab)});
+    [].slice.call(document.querySelectorAll(".osblock")).forEach(function(b){b.classList.toggle("on",b.getAttribute("data-os")===os)});
+  })});
+  try{var p=(navigator.platform||"")+" "+(navigator.userAgent||"");var pick="win";
+    if(/Mac/i.test(p))pick="mac";else if(/Linux|X11/i.test(p)&&!/Android/i.test(p))pick="lin";else if(/Win/i.test(p))pick="win";
+    var t=document.querySelector('.os-tab[data-os="'+pick+'"]');if(t)t.click();
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
