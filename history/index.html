@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AutoClicker — 60 builds, blank window → shipped app</title><meta name="description" content="The build history of AutoClicker — 60 of the most distinct builds, from a blank window to the shipped Textual app, with a growth chart, a screenshot slideshow and an in-page source viewer."><style>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AutoClicker — 61 builds, blank window → shipped app</title><meta name="description" content="The build history of AutoClicker — 61 of the most distinct builds, from a blank window to the shipped Textual app, with a growth chart, a screenshot slideshow and an in-page source viewer."><style>
 :root{--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;--bg:#0a0a0a;--panel:#111;--panel2:#161616;--line:#262626;--line2:#333;--fg:#f2f2f2;--dim:#9a9a9a;--faint:#5c5c5c;--ease:cubic-bezier(.22,1,.36,1)}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--fg);font:14px/1.55 var(--mono);font-variant-numeric:tabular-nums}
@@ -116,7 +116,7 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
  <a class="topmail" href="mailto:67ace67a@gmail.com">67ace67a@gmail.com</a>
  <div class="kicker">ProjectBergmannstrasse</div>
  <h1>AutoClicker <span>/ build history</span></h1>
- <p class="sub">How AutoClicker was built — <b>60 of the most distinct builds</b>, from a
+ <p class="sub">How AutoClicker was built — <b>61 of the most distinct builds</b>, from a
  <b>blank window</b> through the tkinter era and the Textual rewrite to the shipped app, <b>v5.6</b>.
  Every build here is real and runs on its own. Watch it evolve in the <b>slideshow</b>.</p>
  <div class="btnrow">
@@ -197,7 +197,7 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
  </div>
  <div class="readme">
   <h3>About this history</h3>
-  <p>AutoClicker grew through a tkinter era (GUI windows) and then a Textual rewrite (the terminal UI it ships with today). This page shows <b>60 of the most distinct builds</b> — the ones that actually changed something — chosen from the full set, ending on the shipped build, <b>v5.6</b>.</p>
+  <p>AutoClicker grew through a tkinter era (GUI windows) and then a Textual rewrite (the terminal UI it ships with today). This page shows <b>61 of the most distinct builds</b> — the ones that actually changed something — chosen from the full set, ending on the shipped build, <b>v5.6</b>.</p>
   <p>Every build here is one of the real <code>.py</code> files and runs on its own. Each note describes what that build's code actually does. Early builds need <code>pip install pynput</code>; the Textual builds need <code>pip install textual pynput requests</code>; the shipped build auto-installs its own dependencies on first run.</p>
  </div>
 </main>
@@ -222,6 +222,7 @@ function fmtB(b){if(b>=1048576)return (b/1048576).toFixed(1)+" MB";if(b>=1024)re
 function fmtN(n){try{return n.toLocaleString("en-US")}catch(e){return String(n)}}
 function enc(f){return encodeURIComponent(f)}
 var totL=0,maxL=0,maxB=0,preMaxL=0,preMaxB=0,N=V.length;
+try{var _sc=document.getElementById("scrub");if(_sc)_sc.max=String(N-1)}catch(e){}
 V.forEach(function(d,i){totL+=d.lines;if(d.lines>maxL)maxL=d.lines;if(d.bytes>maxB)maxB=d.bytes;
  if(i<N-1){if(d.lines>preMaxL)preMaxL=d.lines;if(d.bytes>preMaxB)preMaxB=d.bytes;}});
 var first=V[0],last=V[N-1];
