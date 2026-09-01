@@ -1,0 +1,104 @@
+AUTOCLICKER — SOFTWARE LICENCE AND TERMS OF SALE
+Licensor: ProjectBergmannstrasse ("the Author")
+Governing law: United Arab Emirates
+Last updated: 2026-09-01
+
+READ THIS BEFORE YOU DOWNLOAD OR USE THE SOURCE.
+
+By purchasing, downloading, decrypting, running, or otherwise accessing the
+AutoClicker source code and any accompanying files (together, "the Software"),
+you ("the Licensee") agree to be bound by this Licence. If you do not agree,
+do not purchase, download, or use the Software.
+
+1. WHAT YOU ARE BUYING
+   1.1  A single-person, non-exclusive, non-transferable licence to download,
+        run, and privately study the Software for your own personal use.
+   1.2  Payment is made through the Author's authorised sales page (Lemon
+        Squeezy). Access to the decrypted source is granted only after a
+        completed purchase. The password that unlocks the source is provided
+        to paying customers only.
+   1.3  You are buying a licence to use the Software. You are NOT buying the
+        copyright, and you are NOT buying the right to redistribute it.
+
+2. OWNERSHIP
+   2.1  The Software is the exclusive property of the Author and is protected
+        by copyright and other intellectual-property laws.
+   2.2  All rights not expressly granted to you in this Licence are reserved
+        by the Author.
+
+3. WHAT YOU MAY NOT DO
+   You may NOT, in whole or in part, directly or indirectly:
+   3.1  Share, publish, post, upload, mirror, leak, or otherwise distribute
+        the Software or its source code, whether free of charge or for a fee,
+        to any other person or the public.
+   3.2  Resell, sublicence, rent, lease, lend, or transfer the Software or
+        your licence to anyone else.
+   3.3  Modify, adapt, translate, fork, repackage, or create derivative works
+        from the Software and then distribute or sell the result.
+   3.4  Remove, disable, bypass, or circumvent the encryption, password gate,
+        licensing, attribution, or any protection mechanism in the Software.
+   3.5  Share, publish, or disclose the decryption password to any person who
+        has not purchased their own licence.
+   3.6  Use the Software, or knowledge derived from its source, to build a
+        competing product that is distributed or sold.
+
+4. WHAT YOU MAY DO
+   4.1  Install and run the Software on devices you personally own or control.
+   4.2  Make a private backup copy for your own use only.
+   4.3  Read and learn from the source for your own personal education.
+
+5. NO WARRANTY
+   5.1  The Software is provided "AS IS", without warranty of any kind, express
+        or implied, including but not limited to fitness for a particular
+        purpose, merchantability, or non-infringement.
+   5.2  The Software automates input and interacts with other programs. You use
+        it entirely at your own risk. The Author is not responsible for any
+        account action, ban, data loss, hardware issue, damage, or any other
+        consequence arising from your use of the Software, and you agree the
+        Software is for lawful, educational use only.
+
+6. LIMITATION OF LIABILITY
+   6.1  To the maximum extent permitted by UAE law, the Author's total
+        liability to you for any claim arising out of or relating to the
+        Software or this Licence shall not exceed the amount you actually paid
+        for the licence.
+   6.2  The Author shall not be liable for any indirect, incidental, special,
+        consequential, or punitive damages of any kind.
+
+7. BREACH, TERMINATION AND ENFORCEMENT
+   7.1  This Licence terminates automatically, immediately and without notice
+        if you breach any term of Section 3. On termination you must stop using
+        the Software and destroy all copies in your possession.
+   7.2  Sharing, leaking, reselling, or redistributing the Software or its
+        password is a material breach and an infringement of the Author's
+        copyright.
+   7.3  The Author actively monitors for leaked and redistributed copies. Each
+        licensed copy and password delivery may be individually identified.
+   7.4  In the event of a breach, the Author reserves the right to pursue all
+        remedies available under the law, including but not limited to:
+          (a) immediate revocation of your licence with no refund;
+          (b) a claim for damages, including the Author's lost sales and any
+              profit you made from the unauthorised use;
+          (c) injunctive relief to stop the continued distribution; and
+          (d) recovery of legal costs and enforcement expenses.
+   7.5  You agree that unauthorised distribution causes the Author real and
+        significant financial harm that may be difficult to quantify, and that
+        legal action may be taken against you personally.
+
+8. GOVERNING LAW AND JURISDICTION
+   8.1  This Licence is governed by and construed in accordance with the laws
+        of the United Arab Emirates.
+   8.2  Any dispute arising out of or in connection with this Licence shall be
+        subject to the exclusive jurisdiction of the competent courts of the
+        United Arab Emirates.
+
+9. ENTIRE AGREEMENT
+   9.1  This Licence is the entire agreement between you and the Author
+        regarding the Software and supersedes any prior understanding.
+   9.2  If any provision of this Licence is held to be unenforceable, the rest
+        of the Licence remains in full force.
+
+By downloading or unlocking the Software you confirm that you have read,
+understood, and agreed to this Licence.
+
+© 2026 ProjectBergmannstrasse. All rights reserved.
