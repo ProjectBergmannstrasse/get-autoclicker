@@ -1,7 +1,7 @@
 AUTOCLICKER — SOFTWARE LICENCE AND TERMS OF SALE
 Licensor: ProjectBergmannstrasse ("the Author")
 Governing law: United Arab Emirates (Emirate of Dubai)
-Version: 1.1
+Version: 1.2
 Last updated: 2026-09-06
 
 READ THIS BEFORE YOU DOWNLOAD OR USE THE SOURCE.
@@ -34,8 +34,9 @@ do not purchase, download, or use the Software.
         to any other person or the public.
    3.2  Resell, sublicence, rent, lease, lend, or transfer the Software or
         your licence to anyone else.
-   3.3  Modify, adapt, translate, fork, repackage, or create derivative works
-        from the Software and then distribute or sell the result.
+   3.3  Modify, adapt, translate, fork, repackage, decompile, or create
+        derivative works from the Software, whether or not the result is
+        distributed.
    3.4  Remove, disable, bypass, or circumvent the encryption, password gate,
         licensing, attribution, or any protection mechanism in the Software.
    3.5  Share, publish, or disclose the decryption password to any person who
