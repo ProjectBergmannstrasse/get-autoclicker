@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AutoClicker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 4' shape-rendering='crispEdges'%3E%3Cg fill='%23ff1744'%3E%3Crect x='2' y='0' width='4' height='1'/%3E%3Crect x='7' y='0' width='2' height='1'/%3E%3Crect x='10' y='0' width='2' height='1'/%3E%3Crect x='13' y='0' width='6' height='1'/%3E%3Crect x='20' y='0' width='6' height='1'/%3E%3Crect x='0' y='1' width='2' height='1'/%3E%3Crect x='4' y='1' width='2' height='1'/%3E%3Crect x='7' y='1' width='2' height='1'/%3E%3Crect x='10' y='1' width='2' height='1'/%3E%3Crect x='15' y='1' width='2' height='1'/%3E%3Crect x='20' y='1' width='2' height='1'/%3E%3Crect x='24' y='1' width='2' height='1'/%3E%3Crect x='0' y='2' width='6' height='1'/%3E%3Crect x='7' y='2' width='2' height='1'/%3E%3Crect x='11' y='2' width='2' height='1'/%3E%3Crect x='15' y='2' width='2' height='1'/%3E%3Crect x='19' y='2' width='2' height='1'/%3E%3Crect x='23' y='2' width='2' height='1'/%3E%3Crect x='0' y='3' width='2' height='1'/%3E%3Crect x='4' y='3' width='2' height='1'/%3E%3Crect x='7' y='3' width='6' height='1'/%3E%3Crect x='15' y='3' width='2' height='1'/%3E%3Crect x='19' y='3' width='6' height='1'/%3E%3C/g%3E%3C/svg%3E">
 <meta name="description" content="AutoClicker - a terminal auto-clicker and macro recorder. $20 for permanent access and the full source code.">
 <style>
   :root{
@@ -27,6 +28,8 @@
   .wrap{max-width:820px; margin:0 auto; padding:32px 20px 80px}
   header{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;
     border-bottom:1px solid var(--line); padding-bottom:22px; margin-bottom:30px}
+  .logo{display:block; width:172px; height:auto; margin:2px 0 14px; fill:#ff1744}
+  @media (max-width:520px){ .logo{width:132px} }
   h1{font-size:30px; letter-spacing:.04em; margin:0 0 6px}
   .tag{color:var(--ink-2); margin:0}
   .price{border:1px solid var(--line-2); border-radius:10px; padding:12px 16px; text-align:center; min-width:150px; background:var(--panel)}
@@ -40,7 +43,8 @@
   .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 20px}
   .plain li{color:var(--ink-2)}
   .plain li:last-child{color:var(--ink)}
-  .term{display:grid; grid-template-columns:120px 1fr; gap:12px; padding:9px 0; border-top:1px solid var(--line)}
+  .term{display:grid; grid-template-columns:150px 1fr; gap:12px; padding:9px 0; border-top:1px solid var(--line)}
+  @media (max-width:560px){ .term{grid-template-columns:1fr; gap:4px} }
   .term:first-child{border-top:0}
   .term-k{color:var(--ink-3); text-transform:uppercase; font-size:11px; letter-spacing:.1em; padding-top:2px}
   .buy{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
@@ -82,6 +86,7 @@
 
   <header>
     <div>
+      <svg class="logo" viewBox="0 0 26 4" shape-rendering="crispEdges" role="img" aria-label="auto" focusable="false"><rect x="2" y="0" width="4" height="1"/><rect x="7" y="0" width="2" height="1"/><rect x="10" y="0" width="2" height="1"/><rect x="13" y="0" width="6" height="1"/><rect x="20" y="0" width="6" height="1"/><rect x="0" y="1" width="2" height="1"/><rect x="4" y="1" width="2" height="1"/><rect x="7" y="1" width="2" height="1"/><rect x="10" y="1" width="2" height="1"/><rect x="15" y="1" width="2" height="1"/><rect x="20" y="1" width="2" height="1"/><rect x="24" y="1" width="2" height="1"/><rect x="0" y="2" width="6" height="1"/><rect x="7" y="2" width="2" height="1"/><rect x="11" y="2" width="2" height="1"/><rect x="15" y="2" width="2" height="1"/><rect x="19" y="2" width="2" height="1"/><rect x="23" y="2" width="2" height="1"/><rect x="0" y="3" width="2" height="1"/><rect x="4" y="3" width="2" height="1"/><rect x="7" y="3" width="6" height="1"/><rect x="15" y="3" width="2" height="1"/><rect x="19" y="3" width="6" height="1"/></svg>
       <h1>AutoClicker</h1>
       <p class="tag">A terminal auto-clicker and macro recorder. Set a rate and a pattern and it clicks; record your real input and replay it. Windows, macOS, Linux.</p>
     </div>
@@ -147,13 +152,24 @@
   <section>
     <h2>Terms</h2>
     <div class="card">
-      <div class="term"><span class="term-k">Licence</span><span class="term-v">Buying grants you a personal, permanent licence to use and modify the AutoClicker builds and their source code for your own purposes.</span></div>
-      <div class="term"><span class="term-k">You may</span><span class="term-v">Run it on your own machines, change the code, and keep your modified versions.</span></div>
-      <div class="term"><span class="term-k">You may not</span><span class="term-v">Resell, re-license, republish, or redistribute the code or the builds - modified or not - or pass them to anyone else, whether free or paid. What you buy is a licence for you, not the right to become a second seller.</span></div>
-      <div class="term"><span class="term-k">Refund</span><span class="term-v">If the software does not work, you get a full refund. Email within a reasonable period, say what happened, and the money is returned - no argument.</span></div>
-      <div class="term"><span class="term-k">No warranty</span><span class="term-v">The software is provided as-is. Auto-clicking breaks the rules of many games and services, and what you do with it is your responsibility, not the author&#x27;s.</span></div>
+      <div class="term"><span class="term-k">1 &middot; Parties</span><span class="term-v">This licence is granted by ProjectBergmannstrasse of github.com/ProjectBergmannstrasse (the &quot;Licensor&quot;) to the purchaser (the &quot;Licensee&quot;). Purchasing, downloading, decrypting or running the AutoClicker builds and their source code (together, the &quot;Software&quot;) constitutes acceptance of these terms.</span></div>
+      <div class="term"><span class="term-k">2 &middot; Licence granted</span><span class="term-v">The Licensor grants the Licensee a non-exclusive, non-transferable, non-sublicensable, perpetual and worldwide licence to install, execute, study and modify the Software on devices the Licensee owns or controls, and to retain a private backup copy, in each case for the Licensee&#x27;s own personal use.</span></div>
+      <div class="term"><span class="term-k">3 &middot; Ownership</span><span class="term-v">All right, title and interest in the Software, including copyright and every other intellectual property right in it, remain vested in the Licensor. All rights not expressly granted under clause 2 are reserved.</span></div>
+      <div class="term"><span class="term-k">4 &middot; Restrictions</span><span class="term-v">The Licensee shall not, in whole or in part, directly or indirectly: sell, resell, sublicense, rent, lease, lend, transfer, publish, mirror, upload or otherwise distribute the Software, whether modified or unmodified and whether for consideration or free of charge; disclose the decryption password to any person who has not purchased a licence; circumvent, disable or bypass the encryption, the password gate or any other protection mechanism; remove or alter any proprietary notice; or use the Software, or knowledge derived from its source, to develop a competing product for distribution or sale.</span></div>
+      <div class="term"><span class="term-k">5 &middot; Delivery</span><span class="term-v">The Software is delivered electronically. Access to the decrypted source is granted only on completion of a purchase, by means of a password issued to the Licensee. Individual password deliveries may be separately identified.</span></div>
+      <div class="term"><span class="term-k">6 &middot; Updates</span><span class="term-v">Future updates to these builds are supplied at no additional charge at the Licensor&#x27;s discretion. The Licensor is under no obligation to provide support, maintenance or any particular update.</span></div>
+      <div class="term"><span class="term-k">7 &middot; Payment</span><span class="term-v">Payment is processed by Lemon Squeezy, acting as merchant of record for the transaction. Prices are stated in US dollars and include any tax collected by the merchant of record.</span></div>
+      <div class="term"><span class="term-k">8 &middot; Refunds</span><span class="term-v">Where the Software materially fails to perform as described on this page, the Licensee may request a refund within 14 days of the date of purchase by writing to 67ace67a@gmail.com with a description of the failure. An approved refund is issued by the merchant of record to the original payment method. This clause is without prejudice to any mandatory statutory right of the Licensee under the law of their country of residence.</span></div>
+      <div class="term"><span class="term-k">9 &middot; Permitted use</span><span class="term-v">The Licensee is solely responsible for ensuring that use of the Software complies with applicable law and with the terms of service, rules or end-user agreement of any game, platform, application or service with which it is used. Automated input is prohibited by many such services and may result in restriction or termination of the Licensee&#x27;s accounts. The Software shall not be used to obtain unauthorised access to any system, to commit fraud, or for any other unlawful purpose.</span></div>
+      <div class="term"><span class="term-k">10 &middot; No warranty</span><span class="term-v">THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE OR NON-INFRINGEMENT. The Licensor does not warrant that operation of the Software will be uninterrupted or free of error.</span></div>
+      <div class="term"><span class="term-k">11 &middot; Liability</span><span class="term-v">TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE LICENSOR SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR PUNITIVE DAMAGES, OR FOR ANY LOSS OF PROFIT, DATA, GOODWILL OR ACCOUNT ACCESS, ARISING OUT OF OR IN CONNECTION WITH THE SOFTWARE. The Licensor&#x27;s aggregate liability arising out of or in connection with this licence shall not exceed the sum actually paid by the Licensee for the licence. Nothing in these terms excludes or limits liability that cannot be excluded or limited by law.</span></div>
+      <div class="term"><span class="term-k">12 &middot; Indemnity</span><span class="term-v">The Licensee shall indemnify the Licensor against all claims, losses, damages and reasonable costs arising from the Licensee&#x27;s use of the Software in breach of clause 4 or clause 9.</span></div>
+      <div class="term"><span class="term-k">13 &middot; Termination</span><span class="term-v">This licence terminates automatically and without notice on any breach of clause 4. On termination the Licensee shall cease all use of the Software and destroy every copy in their possession or control. Clauses 3, 10, 11, 12 and 15 survive termination.</span></div>
+      <div class="term"><span class="term-k">14 &middot; Data</span><span class="term-v">When a build is downloaded, this page transmits the file name and the time of the download to the Licensor. No cookies are set, no tracking identifier is used and no other personal data is collected by this page.</span></div>
+      <div class="term"><span class="term-k">15 &middot; Governing law</span><span class="term-v">These terms are governed by and construed in accordance with the laws of the United Arab Emirates as applied in the Emirate of Dubai, and the parties submit to the exclusive jurisdiction of the courts of Dubai, without prejudice to any mandatory consumer right of the Licensee under the law of their country of residence.</span></div>
+      <div class="term"><span class="term-k">16 &middot; General</span><span class="term-v">These terms and the licence supplied with the Software constitute the entire agreement between the parties in respect of the Software and supersede any prior understanding. If any provision is held to be unenforceable, the remainder continues in full force. A failure to enforce a provision is not a waiver of it.</span></div>
     </div>
-    <p class="locked-note">Plain-English terms, not formal legal advice. For anything high-stakes, have a lawyer look it over.</p>
+    <p class="locked-note">Version 1.1, in force from 6 September 2026. The full licence text is supplied with the Software and published at <a href="./LICENSE.txt" target="_blank" rel="noopener">LICENSE.txt</a>. Questions: 67ace67a@gmail.com</p>
   </section>
 
   <section>

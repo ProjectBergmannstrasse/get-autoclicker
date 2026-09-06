@@ -1,7 +1,8 @@
 AUTOCLICKER — SOFTWARE LICENCE AND TERMS OF SALE
 Licensor: ProjectBergmannstrasse ("the Author")
-Governing law: United Arab Emirates
-Last updated: 2026-09-01
+Governing law: United Arab Emirates (Emirate of Dubai)
+Version: 1.1
+Last updated: 2026-09-06
 
 READ THIS BEFORE YOU DOWNLOAD OR USE THE SOURCE.
 
@@ -87,16 +88,31 @@ do not purchase, download, or use the Software.
 
 8. GOVERNING LAW AND JURISDICTION
    8.1  This Licence is governed by and construed in accordance with the laws
-        of the United Arab Emirates.
+        of the United Arab Emirates as applied in the Emirate of Dubai.
    8.2  Any dispute arising out of or in connection with this Licence shall be
         subject to the exclusive jurisdiction of the competent courts of the
-        United Arab Emirates.
+        Emirate of Dubai, United Arab Emirates.
 
 9. ENTIRE AGREEMENT
    9.1  This Licence is the entire agreement between you and the Author
         regarding the Software and supersedes any prior understanding.
    9.2  If any provision of this Licence is held to be unenforceable, the rest
         of the Licence remains in full force.
+
+10. PAYMENT, DELIVERY AND REFUNDS
+   10.1 Payment is processed by Lemon Squeezy, acting as merchant of record for
+        the transaction. Prices are stated in US dollars and include any tax
+        collected by the merchant of record.
+   10.2 The Software is delivered electronically. Access to the decrypted
+        source is granted on completion of a purchase, by means of a password
+        issued to the Licensee.
+   10.3 Where the Software materially fails to perform as described on the
+        sales page, you may request a refund within 14 days of the date of
+        purchase by writing to 67ace67a@gmail.com with a description of the
+        failure. An approved refund is issued by the merchant of record to the
+        original payment method.
+   10.4 Clause 10.3 is without prejudice to any mandatory statutory right you
+        have under the law of your country of residence.
 
 By downloading or unlocking the Software you confirm that you have read,
 understood, and agreed to this Licence.
