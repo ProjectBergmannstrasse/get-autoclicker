@@ -204,6 +204,7 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
 
 <footer>AutoClicker · ProjectBergmannstrasse · served entirely client-side</footer>
 </div>
+<div id="pwscrim" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:9999;align-items:center;justify-content:center;padding:16px"><div style="background:#161616;border:1px solid #2a2a2a;border-radius:12px;padding:20px;width:min(420px,100%);box-sizing:border-box"><h3 style="margin:0 0 8px;font-size:16px">Enter your password</h3><p style="margin:0 0 12px;color:#b6b6b6;font-size:13px">Buyers receive it with their purchase. It unlocks and decrypts the source in your browser, for this visit only.</p><input id="pwinput" type="password" autocomplete="off" spellcheck="false" placeholder="Password" style="width:100%;padding:10px 12px;background:#0e0e0e;color:#f4f4f4;border:1px solid #3a3a3a;border-radius:6px;font:inherit;box-sizing:border-box"><div id="pwmsg" style="min-height:16px;font-size:12px;color:#ff6b6b;margin:8px 0 0"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px"><button id="pwCancel" class="srcbtn">Cancel</button><button id="pwOk" class="srcbtn pri">Unlock</button></div></div></div>
 <div class="tbar-pad"></div>
 <nav class="tbar" role="tablist" aria-label="Site navigation"><span class="tpill" id="tpill"></span>
 <button role="tab" aria-selected="true"><span class="ic">⌂</span><span class="lb">Home</span></button>
@@ -313,7 +314,7 @@ function startTyping(){SRC.shown=0;SRC.typing=true;ensureTable();
  }
  tick()}
 /* ===== encrypted source unlock (AES-256-GCM, buyers get the password) ===== */
-var UNLOCK={key:null,pw:null};
+var UNLOCK={key:null,pw:null,pending:null};
 function b64toBytes(s){var bin=atob(String(s||""));var u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u}
 function deriveKey(pw){
  var E=window.HIST_ENC;var s=window.crypto&&window.crypto.subtle;
@@ -327,15 +328,24 @@ function decryptBlob(key,blob){
  return s.decrypt({name:"AES-GCM",iv:b64toBytes(blob.iv)},key,b64toBytes(blob.ct))
   .then(function(buf){return new TextDecoder().decode(buf)});
 }
-function askPassword(){
- var pw=window.prompt("Enter the password from your purchase to unlock the source:\n\n(Buyers receive it with their Lemon Squeezy order.)");
- return pw;
-}
+function firstBlob(){var E=window.HIST_ENC;if(!E||!E.blobs)return null;var k=Object.keys(E.blobs);return k.length?E.blobs[k[0]]:null}
 function ensureUnlocked(){
  if(UNLOCK.key)return Promise.resolve(UNLOCK.key);
- var pw=askPassword();
- if(pw===null||pw==="")return Promise.reject(new Error("cancelled"));
- return deriveKey(pw).then(function(k){UNLOCK.key=k;UNLOCK.pw=pw;return k});
+ if(UNLOCK.pending)return UNLOCK.pending;
+ UNLOCK.pending=new Promise(function(resolve,reject){
+  var sc=$("pwscrim"),ok=$("pwOk"),cancel=$("pwCancel"),inp=$("pwinput"),msg=$("pwmsg");
+  if(!sc||!ok){reject(new Error("no-modal"));return}
+  sc.style.display="flex";if(inp){inp.value="";setTimeout(function(){try{inp.focus()}catch(e){}},30)}if(msg)msg.textContent="";
+  function cleanup(){ok.onclick=null;cancel.onclick=null;if(inp)inp.onkeydown=null;UNLOCK.pending=null}
+  function fail(t){if(msg)msg.textContent=t;ok.disabled=false;ok.textContent="Unlock"}
+  function go(){var pw=inp?inp.value:"";if(!pw){fail("Type the password.");return}
+   ok.disabled=true;ok.textContent="Unlocking\u2026";if(msg)msg.textContent="";
+   deriveKey(pw).then(function(k){var b=firstBlob();if(!b)throw new Error("nodata");return decryptBlob(k,b).then(function(){UNLOCK.key=k;UNLOCK.pw=pw;sc.style.display="none";cleanup();resolve(k)})})
+    .catch(function(e){fail("That did not unlock. Check the password from your purchase.")})}
+  ok.onclick=go;if(inp)inp.onkeydown=function(e){if(e.key==="Enter"){e.preventDefault();go()}};
+  cancel.onclick=function(){sc.style.display="none";cleanup();reject(new Error("cancelled"))};
+ });
+ return UNLOCK.pending;
 }
 function openSource(idx){
  var d=V[idx];SRC.lines=[];SRC.shown=0;
