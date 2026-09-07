@@ -111,7 +111,7 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
 .tbar button[aria-selected="true"] .ic{transform:translateY(-1px) scale(1.16)}
 @media(max-width:640px){.acts{flex-direction:column;gap:4px}thead th:nth-child(3),tbody td:nth-child(3){display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-</style><script src="./enc/meta.js"></script><script src="./enc/part1.js"></script><script src="./enc/part2.js"></script><script src="./enc/part3.js"></script><script src="./enc/part4.js"></script><script>window.LS_URL="YOUR_LEMONSQUEEZY_URL";</script></head><body><div class="wrap">
+</style><script src="./enc/meta.js"></script><script src="./enc/part1.js"></script><script src="./enc/part2.js"></script><script src="./enc/part3.js"></script><script src="./enc/part4.js"></script><script>window.LS_URL="https://projectbergmannstrasse.github.io/get-autoclicker/autoclicker.html";</script></head><body><div class="wrap">
 <header>
  <a class="topmail" href="mailto:67ace67a@gmail.com">67ace67a@gmail.com</a>
  <div class="kicker">ProjectBergmannstrasse</div>
@@ -141,7 +141,7 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
 </main>
 
 <main id="view-builds" hidden>
- <h2>All builds <small>oldest → newest — open runs it, save downloads it, source reads it here</small></h2>
+ <h2>All builds <small>oldest → newest — open, save and source all need the password from your purchase</small></h2>
  <div class="toolrow">
   <input class="search" id="q" type="search" placeholder="Filter… e.g. tab, hotkey, dark, emulation" aria-label="Filter builds">
   <select class="sortsel" id="sort" aria-label="Sort"><option value="old">Oldest first</option><option value="new">Newest first</option><option value="big">Largest first</option></select>
@@ -370,8 +370,14 @@ $("srcCopy").addEventListener("click",function(){var b=this;
  .then(function(){b.textContent="Copied ✓";setTimeout(function(){b.textContent="Copy all"},1400)},
        function(){b.textContent="Use Download";setTimeout(function(){b.textContent="Copy all"},1800)})});
 $("srcSkip").addEventListener("click",function(){finishTyping()});
-$("rows").addEventListener("click",function(ev){var a=ev.target;
- if(a&&a.getAttribute&&a.getAttribute("data-src")!==null){ev.preventDefault();openSource(+a.getAttribute("data-src"))}});
+function downloadText(name,text){try{var bl=new Blob([text],{type:"text/x-python;charset=utf-8"});var u=URL.createObjectURL(bl);var a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u)},1500)}catch(e){}}
+function gatedFetch(idx){var d=V[idx];var E=window.HIST_ENC;var blob=E&&E.blobs?E.blobs[d.file]:null;if(!blob)return Promise.reject(new Error("unavailable"));return ensureUnlocked().then(function(k){return decryptBlob(k,blob)})}
+function gateErr(e){if(e&&e.message==="cancelled")return;alert("Could not unlock. Enter the password from your purchase to download or view the source.")}
+$("rows").addEventListener("click",function(ev){var a=ev.target;if(!a||!a.getAttribute)return;
+ if(a.getAttribute("data-src")!==null){ev.preventDefault();openSource(+a.getAttribute("data-src"));return}
+ if(a.getAttribute("data-dl")!==null){ev.preventDefault();var i=+a.getAttribute("data-dl");gatedFetch(i).then(function(t){downloadText(V[i].file,t)}).catch(gateErr);return}
+ if(a.getAttribute("data-open")!==null){ev.preventDefault();var j=+a.getAttribute("data-open");gatedFetch(j).then(function(t){var w=null;try{var u=URL.createObjectURL(new Blob([t],{type:"text/plain;charset=utf-8"}));w=window.open(u,"_blank");setTimeout(function(){URL.revokeObjectURL(u)},60000)}catch(e){}if(!w)openSource(j)}).catch(gateErr);return}
+});
 
 /* ===== stats ===== */
 var growth=Math.round(last.lines/first.lines);
@@ -431,8 +437,8 @@ function render(){
   return "<tr><td><span class='seq'>"+d.seq+"</span> <span class='ver'>"+d.ver+"</span><div class='bnote'>"+(d.note||"")+"</div></td>"+
    "<td class='num'><span class='sizebar' style='width:"+w+"px'></span>"+fmtB(d.bytes)+"</td>"+
    "<td class='num'>"+fmtN(d.lines)+"</td>"+
-   "<td><span class='acts'><a href='./versions/"+enc(d.file)+"' target='_blank' rel='noopener'>open</a>"+
-   "<a href='./versions/"+enc(d.file)+"' download>save</a>"+
+   "<td><span class='acts'><a href='#source' data-open='"+r.i+"'>open</a>"+
+   "<a href='#source' data-dl='"+r.i+"'>save</a>"+
    "<a href='#source' data-src='"+r.i+"'>source</a></span></td></tr>"}).join("");
  cnt.textContent=list.length+" / "+N;empty.style.display=list.length?"none":"block";}
 $("q").addEventListener("input",function(){q=this.value.trim();render()});
