@@ -1,9 +1,17 @@
-### encrypted ###
+#!/usr/bin/env python3
+# AutoClicker build v20  (encrypted placeholder - build 015 of 61)
+#
+# This file is NOT the AutoClicker source. Each build's real source is
+# stored encrypted (AES-256-GCM) and unlocks with the password buyers
+# receive with their purchase. Unauthorised sharing, copying or resale
+# is prohibited - see the licence.
 
-The source of this file is not in this page in readable form. It is stored
-encrypted with AES-256-GCM and needs the password to be decrypted.
+MESSAGE = (
+    "This is an encrypted placeholder, not the AutoClicker source.\n"
+    "Unlock the real build on the history page:\n"
+    "  https://projectbergmannstrasse.github.io/get-autoclicker/history/#builds\n"
+    "Buyers receive the password issued with their purchase.\n"
+)
 
-Buyers receive the password with their purchase. Unauthorised sharing,
-copying, or resale of this source is prohibited — see the licence.
-
-Get it at the official store; press "Unlock the source" on the history page.
+if __name__ == "__main__":
+    print(MESSAGE)
