@@ -130,12 +130,14 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
  <div class="stats" id="stats"></div>
  <h2>Growth across the builds
   <span class="ctoggle" role="tablist"><button id="btnLines" class="on">lines</button><button id="btnBytes">size</button></span>
-  <span class="ctoggle" id="eraTog" role="tablist"><button id="erAll" class="on">all 60</button><button id="erPre">before shipped</button></span>
+  <span class="ctoggle" id="eraTog" role="tablist"><button id="erAll" class="on">all 60</button><button id="erPre">before shipped</button></span><span class="ctoggle" id="filterTog"><button id="gearBtn" title="Filter versions by lines added">⚙</button></span>
   <small id="chartLabel">code lines per build</small></h2>
+ <div id="filterPanel" hidden style="margin:0 0 8px;font-size:12px;color:var(--dim);display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span>Only versions that add at least</span><input id="deltaRange" type="range" min="0" max="300" step="10" value="0" style="vertical-align:middle;max-width:240px"><b id="deltaVal" style="color:var(--fg);min-width:70px;display:inline-block">all</b></div>
  <div class="chartbox" id="chartbox">
   <svg id="chart" viewBox="0 0 1000 260" preserveAspectRatio="none" aria-label="Growth chart"></svg>
   <div class="tip" id="tip"></div><div class="chartnote" id="chartnote"></div>
  </div>
+ <div class="chartnote" id="filterCount" style="padding-top:0;color:var(--dim)"></div>
  <h2>Milestones</h2>
  <div class="milestones" id="miles"></div>
 </main>
@@ -406,10 +408,12 @@ var reduce=(window.matchMedia?matchMedia("(prefers-reduced-motion: reduce)").mat
 });
 
 /* ===== chart ===== */
-var svg=$("chart"),tip=$("tip"),box=$("chartbox"),mode="lines",era="all";
+var svg=$("chart"),tip=$("tip"),box=$("chartbox"),mode="lines",era="all",minDelta=0;
+function applyFilter(list){if(!minDelta||list.length<=2)return list;var out=[list[0]],lk=list[0];for(var i=1;i<list.length-1;i++){if((list[i].lines-lk.lines)>=minDelta){out.push(list[i]);lk=list[i]}}out.push(list[list.length-1]);return out}
+function chartData(){return applyFilter(era==="all"?V:V.slice(0,N-1))}
 function draw(){
- var W=1000,H=260,pad=4,data=era==="all"?V:V.slice(0,N-1),n=data.length,bw=(W-pad*2)/n;
- var mx=mode==="lines"?(era==="all"?maxL:preMaxL):(era==="all"?maxB:preMaxB),out=[];
+ var W=1000,H=260,pad=4,base=era==="all"?V:V.slice(0,N-1),data=applyFilter(base),n=data.length,bw=(W-pad*2)/n;
+ var mx=0;for(var _j=0;_j<n;_j++){var _v=mode==="lines"?data[_j].lines:data[_j].bytes;if(_v>mx)mx=_v}if(!mx)mx=1;var out=[];
  for(var i=0;i<n;i++){var d=data[i],val=mode==="lines"?d.lines:d.bytes,h=Math.max(2,(val/mx)*(H-10));
   out.push('<rect class="bar" data-i="'+i+'" x="'+(pad+i*bw).toFixed(2)+'" y="'+(H-h).toFixed(2)+'" width="'+Math.max(1,bw-1).toFixed(2)+'" height="'+h.toFixed(2)+'"></rect>')}
  svg.innerHTML=out.join("");
@@ -417,11 +421,12 @@ function draw(){
  $("chartnote").textContent=era==="all"
   ?"The shipped build ("+last.ver+") is the tall bar on the right — ~"+growth+"× the first build. Switch to “before shipped” to see the earlier builds grow."
   :"The 59 builds before the shipped rewrite: "+fmtN(first.lines)+" → "+fmtN(V[N-2].lines)+" lines.";
+ var _fc=$("filterCount");if(_fc)_fc.textContent="Showing "+n+" of "+base.length+" versions"+(minDelta?(" — each adds ≥ "+minDelta+" lines vs the previous shown"):"");
 }
 try{draw()}catch(e){revealAll()}
 svg.addEventListener("mousemove",function(e){var t=e.target;
  if(!t.classList||!t.classList.contains("bar")){tip.classList.remove("on");return}
- var data=era==="all"?V:V.slice(0,N-1),d=data[+t.dataset.i];
+ var d=chartData()[+t.dataset.i];if(!d){tip.classList.remove("on");return}
  tip.innerHTML="<b>"+d.ver+"</b> <span class='d'>build "+d.seq+"</span><br>"+fmtN(d.lines)+" lines · "+fmtB(d.bytes);
  var r=box.getBoundingClientRect(),x=Math.min(e.clientX-r.left+12,Math.max(0,r.width-tip.offsetWidth-8));
  tip.style.left=x+"px";tip.style.top=(e.clientY-r.top-44)+"px";tip.classList.add("on")});
@@ -430,6 +435,9 @@ $("btnLines").addEventListener("click",function(){mode="lines";this.classList.ad
 $("btnBytes").addEventListener("click",function(){mode="bytes";this.classList.add("on");$("btnLines").classList.remove("on");draw()});
 $("erAll").addEventListener("click",function(){era="all";this.classList.add("on");$("erPre").classList.remove("on");draw()});
 $("erPre").addEventListener("click",function(){era="pre";this.classList.add("on");$("erAll").classList.remove("on");draw()});
+(function(){var g=$("gearBtn"),p=$("filterPanel"),r=$("deltaRange"),dv=$("deltaVal");
+ if(g)g.addEventListener("click",function(){if(p){p.hidden=!p.hidden;this.classList.toggle("on",!p.hidden)}});
+ if(r)r.addEventListener("input",function(){minDelta=+this.value;if(dv)dv.textContent=minDelta?("+"+minDelta+" lines"):"all";draw()});})();
 
 /* ===== milestones ===== */
 var miles=[["Start","A blank window — "+fmtN(first.lines)+" lines."],
