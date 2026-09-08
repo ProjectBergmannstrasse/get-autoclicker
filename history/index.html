@@ -117,10 +117,10 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
  <div class="kicker">ProjectBergmannstrasse</div>
  <h1>AutoClicker <span>/ build history</span></h1>
  <p class="sub">How AutoClicker was built — <b>61 of the most distinct builds</b>, from a
- <b>blank window</b> through the tkinter era and the Textual rewrite to the shipped app, <b>v5.6</b>.
+ <b>blank window</b> through the tkinter era and the Textual rewrite to the shipped app, <b class="latestver">v5.6</b>.
  Every build here is real and runs on its own. Watch it evolve in the <b>slideshow</b>.</p>
  <div class="btnrow">
-  <a class="bbtn" href="https://projectbergmannstrasse.github.io/get-autoclicker/autoclicker.html">Get AutoClicker — v5.6</a>
+  <a class="bbtn" href="https://projectbergmannstrasse.github.io/get-autoclicker/autoclicker.html">Get AutoClicker — <span class="latestver">v5.6</span></a>
   <a class="bbtn ghost" href="#show" data-tab="2">Watch the slideshow</a>
   <a class="bbtn ghost" href="#builds" data-tab="1">Browse builds</a>
  </div>
@@ -191,13 +191,13 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:v
   <div class="crd-k">ProjectBergmannstrasse</div>
   <div class="nm">Zuhayr</div>
   <div class="rl">Built AutoClicker — a terminal auto-clicker and macro recorder for Windows, macOS and Linux.</div>
-  <div class="crow2"><span class="lbl">Get it</span><a href="https://projectbergmannstrasse.github.io/get-autoclicker/autoclicker.html">Buy &amp; download AutoClicker v5.6</a></div>
+  <div class="crow2"><span class="lbl">Get it</span><a href="https://projectbergmannstrasse.github.io/get-autoclicker/autoclicker.html">Buy &amp; download AutoClicker <span class="latestver">v5.6</span></a></div>
   <div class="crow2"><span class="lbl">Email</span><a href="mailto:67ace67a@gmail.com">67ace67a@gmail.com</a></div>
   <div class="crow2"><span class="lbl">GitHub</span><a href="https://github.com/ProjectBergmannstrasse">github.com/ProjectBergmannstrasse</a></div>
  </div>
  <div class="readme">
   <h3>About this history</h3>
-  <p>AutoClicker grew through a tkinter era (GUI windows) and then a Textual rewrite (the terminal UI it ships with today). This page shows <b>61 of the most distinct builds</b> — the ones that actually changed something — chosen from the full set, ending on the shipped build, <b>v5.6</b>.</p>
+  <p>AutoClicker grew through a tkinter era (GUI windows) and then a Textual rewrite (the terminal UI it ships with today). This page shows <b>61 of the most distinct builds</b> — the ones that actually changed something — chosen from the full set, ending on the shipped build, <b class="latestver">v5.6</b>.</p>
   <p>Every build here is one of the real <code>.py</code> files and runs on its own. Each note describes what that build's code actually does. Early builds need <code>pip install pynput</code>; the Textual builds need <code>pip install textual pynput requests</code>; the shipped build auto-installs its own dependencies on first run.</p>
  </div>
 </main>
@@ -227,6 +227,7 @@ try{var _sc=document.getElementById("scrub");if(_sc)_sc.max=String(N-1)}catch(e)
 V.forEach(function(d,i){totL+=d.lines;if(d.lines>maxL)maxL=d.lines;if(d.bytes>maxB)maxB=d.bytes;
  if(i<N-1){if(d.lines>preMaxL)preMaxL=d.lines;if(d.bytes>preMaxB)preMaxB=d.bytes;}});
 var first=V[0],last=V[N-1];
+var LATEST=last.ver;try{[].forEach.call(document.querySelectorAll(".latestver"),function(e){e.textContent=LATEST})}catch(e){}
 function revealAll(){try{var v=views[sel];if(v){v.hidden=false;v.style.opacity="1"}}catch(e){}}
 try{if(window.addEventListener){window.addEventListener("error",revealAll);window.addEventListener("unhandledrejection",revealAll);}}catch(e){}
 
@@ -391,14 +392,14 @@ $("rows").addEventListener("click",function(ev){var a=ev.target;if(!a||!a.getAtt
 
 /* ===== stats ===== */
 var growth=Math.round(last.lines/first.lines);
-var stats=[[N,"builds shown",1],[5.6,"shipped version",10],[totL,"total lines",1],
- [last.lines,"lines in v5.6",1],[first.lines,"lines at the start",1],[growth,"× growth",1]];
+var stats=[[N,"builds shown",1],[LATEST,"shipped version",0],[totL,"total lines",1],
+ [last.lines,"lines in "+LATEST,1],[first.lines,"lines at the start",1],[growth,"× growth",1]];
 var sEl=$("stats");
 stats.forEach(function(s){var d=document.createElement("div");d.className="stat";
  d.innerHTML='<div class="n" data-t="'+s[0]+'" data-m="'+s[2]+'">0</div><div class="l">'+s[1]+"</div>";sEl.appendChild(d)});
 var reduce=(window.matchMedia?matchMedia("(prefers-reduced-motion: reduce)").matches:false);
 [].slice.call(document.querySelectorAll(".stat .n")).forEach(function(el){
- var t=parseFloat(el.dataset.t),m=+el.dataset.m;
+ var t=parseFloat(el.dataset.t),m=+el.dataset.m;if(isNaN(t)){el.textContent=el.dataset.t;return}
  function sv(v){el.textContent=(m===10?v.toFixed(1):fmtN(Math.round(v)))}
  if(reduce||!window.requestAnimationFrame){sv(t);return}
  var st=null;(function stp(ts){if(ts===undefined){requestAnimationFrame(stp);return}if(!st)st=ts;var k=Math.min(1,(ts-st)/700);k=1-Math.pow(1-k,3);sv(t*k);if(k<1)requestAnimationFrame(stp)})();
@@ -414,7 +415,7 @@ function draw(){
  svg.innerHTML=out.join("");
  $("chartLabel").textContent=(mode==="lines"?"code lines":"file size")+" per build"+(era==="all"?"":" · before the shipped build");
  $("chartnote").textContent=era==="all"
-  ?"The shipped build (v5.6) is the tall bar on the right — ~"+growth+"× the first build. Switch to “before shipped” to see the earlier builds grow."
+  ?"The shipped build ("+last.ver+") is the tall bar on the right — ~"+growth+"× the first build. Switch to “before shipped” to see the earlier builds grow."
   :"The 59 builds before the shipped rewrite: "+fmtN(first.lines)+" → "+fmtN(V[N-2].lines)+" lines.";
 }
 try{draw()}catch(e){revealAll()}
@@ -434,7 +435,7 @@ $("erPre").addEventListener("click",function(){era="pre";this.classList.add("on"
 var miles=[["Start","A blank window — "+fmtN(first.lines)+" lines."],
  ["tkinter era","A real GUI: Start/Stop, CPS box, dropdowns, dark theme, stats."],
  ["Textual rewrite","Rebuilt as a terminal UI — tabs, ASCII header, emulation recorder."],
- ["v5.6 — shipped","The build customers buy — "+fmtN(last.lines)+" lines."]];
+ [last.ver+" — shipped","The build customers buy — "+fmtN(last.lines)+" lines."]];
 $("miles").innerHTML=miles.map(function(m){return '<div class="mile"><div class="mv">'+m[0]+'</div><div class="mt">'+m[1]+"</div></div>"}).join("");
 
 /* ===== builds table ===== */
